@@ -22,8 +22,18 @@ const ActivateAccount = () => {
                 // Make the API call
                 const response = await fetch(`${process.env.REACT_APP_API_URL}/activate/${token}`);
                 
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
                 if (!response.ok) {
-                    throw new Error('Failed to activate account');
+                    // Handle specific error responses
+                    if (response.status === 304) {
+                        setMessage('Account already activated or no changes made.');
+                        setDebug(prev => prev + '\nAccount already activated or no changes made.');
+                        return;
+                    } else {
+                        throw new Error('Failed to activate account: ' + response.status);
+                    }
                 }
 
                 const data = await response.json();
