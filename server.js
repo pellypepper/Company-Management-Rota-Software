@@ -281,7 +281,51 @@ app.get('/activate/:token', async (req, res) => {
     );
 
     if (updateResult.rowCount > 0) {
-      return res.json({ message: 'Account activated successfully. You can now log in.' });
+      return res.send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Account Activated</title>
+            <style>
+                body {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    background-color: #f0f4f8;
+                    font-family: Arial, sans-serif;
+                }
+                .message {
+                    text-align: center;
+                    padding: 20px;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    background-color: #fff;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+                .success {
+                    color: green;
+                    font-size: 24px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="message">
+                <h2 class="success">Account activated successfully!</h2>
+                <p>You can now log in.</p>
+                <p>Redirecting to login page...</p>
+                <script>
+                    // Redirect to login page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '/login'; // Update this path as necessary
+                    }, 2000);
+                </script>
+            </div>
+        </body>
+        </html>
+      `);
     } else {
       throw new Error('Failed to update verification status.');
     }
