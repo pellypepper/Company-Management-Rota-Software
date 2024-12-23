@@ -98,20 +98,40 @@ passport.use(
   })
 );
 
+
 passport.serializeUser((user, done) => {
-  if (!user?.id) return done(new Error("Invalid user object"));
-  done(null, { id: user.id, role: user.role });
+  if (!user?.id || !user?.role) {
+    return done(new Error("Invalid user object"));
+  }
+
+  const normalizedRole = user.role.toLowerCase();
+  done(null, { id: user.id, role: normalizedRole });
 });
 
 passport.deserializeUser(async ({ id, role }, done) => {
   try {
+
+    const validRoles = ['hr', 'manager', 'staff'];
+    if (!validRoles.includes(role)) {
+      return done(new Error('Invalid role'));
+    }
+
     const result = await pool.query(
-      `SELECT * FROM ${role.toLowerCase()} WHERE id = $1`, 
+      `SELECT id, name, email, role, city, isverified FROM ${role} WHERE id = $1`,
       [id]
     );
     
-    if (!result.rows[0]) return done(new Error('User not found'));
-    done(null, result.rows[0]);
+    if (!result.rows[0]) {
+      return done(new Error('User not found'));
+    }
+
+    const user = result.rows[0];
+
+    if (user.role.toLowerCase() !== role) {
+      return done(new Error('Role mismatch'));
+    }
+
+    done(null, user);
   } catch (error) {
     done(error);
   }
@@ -331,8 +351,10 @@ const isAuthenticated = (req, res, next) => {
   }
   next();
 };
+
 const checkRole = (allowedRoles) => (req, res, next) => {
-  if (!req.user?.role || !allowedRoles.includes(req.user.role.toLowerCase())) {
+  const userRole = req?.user?.role?.toLowerCase();
+  if (!userRole || !allowedRoles.includes(userRole)) {
     return res.status(403).json({ message: 'Access denied' });
   }
   next();
