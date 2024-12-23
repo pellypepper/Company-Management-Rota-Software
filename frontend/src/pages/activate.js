@@ -20,7 +20,7 @@ const ActivateAccount = () => {
                 setDebug(prev => prev + '\nToken: ' + token);
 
                 // Make the API call
-                const response = await fetch(`http://localhost:3000/activate/${token}`);
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/activate/${token}`);
                 const data = await response.json();
                 
                 console.log('Server response:', data);
