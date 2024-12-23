@@ -98,17 +98,17 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const tables = ['manager', 'hr', 'staff']; // Array of tables to check
+    const tables = ['manager', 'hr', 'staff']; 
     for (const table of tables) {
       const result = await pool.query(`SELECT * FROM ${table} WHERE id = $1`, [id]);
       if (result.rows.length > 0) {
-        return done(null, result.rows[0]); // User found, return the user object
+        return done(null, result.rows[0]);
       }
     }
-    // If no user is found in any table
+  
     return done(new Error('User not found'));
   } catch (error) {
-    return done(error); // Pass the error to the done callback
+    return done(error); 
   }
 });
 
@@ -122,7 +122,7 @@ app.use('/leave', leaveRoute);
 app.use('/manager', managerRoute);
 
 
-app.use(express.static(path.join(__dirname, 'frontend', 'build')));
+app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 app.post('/login', (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
@@ -341,14 +341,14 @@ const checkRole = (allowedRoles) => {
 
 
 app.get("/managerdash", isAuthenticated, checkRole(['manager']), (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'build', 'managerdash.html'));
+  res.sendFile(path.join(__dirname, 'frontend/build', 'managerdash.html'));
 });
 
 app.get("/staffdash", isAuthenticated, checkRole(['staff']), (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'build', 'staffdash.html'));
+  res.sendFile(path.join(__dirname, 'frontend/build', 'staffdash.html'));
 });
 app.get("/hrdash", isAuthenticated, checkRole(['hr']), (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'build', 'hrdash.html'));
+  res.sendFile(path.join(__dirname, 'frontend/build', 'hrdash.html'));
 });
 
 app.post('/logout', (req, res) => {
@@ -370,22 +370,20 @@ app.post('/logout', (req, res) => {
   });
 });
 
-app.get('/', (req, res) => {
-  res.json({ message: "Hello from the Express server!" });
-});
+
 
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
 
 
 app.get('/register', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
 
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
 
 // Start the server
