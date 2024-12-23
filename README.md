@@ -18,3 +18,11 @@ Technologies Used
 * Database: PostgreSQL
 * Authentication: Passport.js (for user authentication)
 * Session Management: Express-session and pg-session for PostgreSQL session storage
+
+
+Usage
+Navigate to the register page and enter your credentials to access the system.
+you will get an activation link to verify, verify and login wit your credentials
+Hr can assign roles, pay , view all staff and manager details
+Managers can  manage shifts,view all staff details and approve leave requests.
+Staff can view their next shifts and submit leave requests.
