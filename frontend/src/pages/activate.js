@@ -6,33 +6,41 @@ const ActivateAccount = () => {
     const [message, setMessage] = useState('Loading...');
     const navigate = useNavigate();
 
-    // Add this console.log outside useEffect to verify component renders
+    // Log to verify component is rendering
     console.log('Component rendering');
 
     useEffect(() => {
-        console.log('Effect running'); // Verify effect triggers
-        
+        console.log('Effect running');
+
         // Define async function
         const activateAccount = async () => {
             console.log('Activation function starting');
+
             try {
+                // Get the token from the URL
                 const path = window.location.pathname;
                 const token = path.split('/').pop();
-                
+
                 console.log('Token:', token);
 
+                // Make the API call
                 const response = await fetch(`${process.env.REACT_APP_API_URL}/activate/${token}`);
                 console.log('Response:', response.status);
 
+                // Check response status
                 if (!response.ok) {
                     if (response.status === 304) {
                         setMessage('Account already activated or no changes made.');
                         return;
                     }
-                    throw new Error('Failed to activate account');
+                    throw new Error('Failed to activate account: ' + response.statusText);
                 }
 
+                // Parse JSON data
                 const data = await response.json();
+                console.log('Data received:', data);
+                
+                // Set the success message
                 setMessage(data.message || 'Account activated successfully!');
 
                 // Redirect after success
@@ -46,37 +54,25 @@ const ActivateAccount = () => {
             }
         };
 
-        // Immediately call the function
+        // Call the activation function
         activateAccount();
 
-        // Add a cleanup function
+        // Cleanup function
         return () => {
             console.log('Cleanup running');
         };
-    }, []); // Empty dependency array
+    }, [navigate]); // Use navigate as a dependency
 
-    // Return immediate visual feedback
     return (
-        <div style={{ 
-            padding: '20px',
-            maxWidth: '600px',
-            margin: '40px auto',
-            textAlign: 'center',
-            border: '1px solid #ccc',
-            borderRadius: '8px',
-            backgroundColor: '#fff'
-        }}>
+        <div style={{ margin: '20px', textAlign: 'center' }}>
             <h1>Account Activation Page</h1>
-            <p>{message}</p>
-            <div style={{
-                marginTop: '20px',
-                padding: '10px',
-                backgroundColor: '#f5f5f5',
-                borderRadius: '4px'
-            }}>
-                <p>Current Path: {window.location.pathname}</p>
-                <p>Debug Info: {debug}</p>
-            </div>
+            <p style={{ padding: '10px', border: '1px solid #ccc', margin: '10px 0' }}>
+                Message: {message}
+            </p>
+            <p>Current Path: {window.location.pathname}</p>
+            <pre style={{ textAlign: 'left', background: '#f0f0f0', padding: '10px', margin: '10px 0' }}>
+                Debug Info: {debug}
+            </pre>
         </div>
     );
 };
