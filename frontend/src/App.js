@@ -13,7 +13,6 @@ import Shift from './pages/dashboard/staffdash/shift';
 import Timesheet from './pages/dashboard/staffdash/timesheet';
 import Leave from './pages/dashboard/staffdash/leave';
 import ManagerDashboard from './pages/dashboard/managerdash/managerdash';
-import ActivateAccount from './pages/activate';
 import HrDashboard from './pages/dashboard/hrdash/hrdash'; 
 import ProtectedRoute from './components/protected';
 
