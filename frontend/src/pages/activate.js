@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const ActivateAccount = () => {
     const [debug, setDebug] = useState('Initial render');
     const [message, setMessage] = useState('Loading...');
-    const navigate = useNavigate(); // Initialize the navigate function
+    const navigate = useNavigate();
 
     useEffect(() => {
         const activateAccount = async () => {
@@ -21,6 +21,11 @@ const ActivateAccount = () => {
 
                 // Make the API call
                 const response = await fetch(`${process.env.REACT_APP_API_URL}/activate/${token}`);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to activate account');
+                }
+
                 const data = await response.json();
                 
                 console.log('Server response:', data);
@@ -30,12 +35,10 @@ const ActivateAccount = () => {
                 setMessage(data.message || 'No message from server');
 
                 // Redirect to login page after 2 seconds if activation is successful
-                if (response.ok) {
-                    setTimeout(() => {
-                        navigate('/login'); // Navigate to the login page
-                    }, 2000); // 2000 milliseconds = 2 seconds
-                }
-                
+                setTimeout(() => {
+                    navigate('/login'); // Navigate to the login page
+                }, 2000);
+
             } catch (error) {
                 console.error('Error:', error);
                 setDebug(prev => prev + '\nError: ' + error.message);
@@ -44,13 +47,12 @@ const ActivateAccount = () => {
         };
 
         activateAccount();
-    }, [navigate]); // Include navigate in the dependency array
+    }, [navigate]);
 
     return (
         <div style={{ margin: '20px', textAlign: 'center' }}>
             <h1>Account Activation</h1>
             
-            {/* Always show the message */}
             <p style={{ 
                 padding: '10px', 
                 border: '1px solid #ccc',
@@ -59,7 +61,6 @@ const ActivateAccount = () => {
                 Message: {message}
             </p>
 
-            {/* Debug information */}
             <pre style={{ 
                 textAlign: 'left',
                 background: '#f0f0f0',
