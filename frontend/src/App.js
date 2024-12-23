@@ -32,14 +32,6 @@ function App() {
       element: <Registerpage />
     },
     {
-      path: '/activate/:token',
-      element: <ActivateAccount />
-    },
-    {
-      path: '/dashboard',
-      element: <Dashboard />
-    },
-    {
       path: '/managerdash',
       element: (
         <ProtectedRoute allowedRoles={['manager']}>
