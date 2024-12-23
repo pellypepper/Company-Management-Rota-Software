@@ -10,6 +10,8 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require('bcrypt');
 const pool = require('./db');
 const app = express();
+const pgSession = require('connect-pg-simple')(session);
+const { Pool } = require('pg');
 const PORT = process.env.PORT || 10000;
 const cors = require('cors');
 const shiftRoute = require('./shiftRoute');
@@ -29,7 +31,11 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS,
     },
 });
-
+const pgPool = require('pg').Pool; 
+const sessionStore = new pgSession({
+    pool: pool, 
+    tableName: 'session' 
+});
 // Session Middleware 
 app.use(
   session({
