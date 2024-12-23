@@ -1,51 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './activate.css';
 
 const ActivateAccount = () => {
     const [debug, setDebug] = useState('Initial render');
     const [message, setMessage] = useState('Loading...');
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        console.log('Component mounted'); // Initial console log
+    // Add this console.log outside useEffect to verify component renders
+    console.log('Component rendering');
 
+    useEffect(() => {
+        console.log('Effect running'); // Verify effect triggers
+        
+        // Define async function
         const activateAccount = async () => {
+            console.log('Activation function starting');
             try {
-                // Get token from URL
                 const path = window.location.pathname;
                 const token = path.split('/').pop();
                 
-                console.log('Token:', token); // Log token
+                console.log('Token:', token);
 
-                if (!token) {
-                    throw new Error('No activation token found in URL');
-                }
-
-                // Check if API URL is defined
-                const apiUrl = process.env.REACT_APP_API_URL;
-                console.log('API URL:', apiUrl); // Log API URL
-
-                if (!apiUrl) {
-                    throw new Error('API URL is not configured');
-                }
-
-                // Make the API call
-                const response = await fetch(`${apiUrl}/activate/${token}`);
-                console.log('Response received:', response.status);
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/activate/${token}`);
+                console.log('Response:', response.status);
 
                 if (!response.ok) {
                     if (response.status === 304) {
-                        setMessage('Account already activated.');
+                        setMessage('Account already activated or no changes made.');
                         return;
                     }
-                    throw new Error(`Activation failed with status: ${response.status}`);
+                    throw new Error('Failed to activate account');
                 }
 
                 const data = await response.json();
-                console.log('Response data:', data);
-
                 setMessage(data.message || 'Account activated successfully!');
 
                 // Redirect after success
@@ -53,46 +40,42 @@ const ActivateAccount = () => {
                     navigate('/login');
                 }, 2000);
 
-            } catch (err) {
-                console.error('Activation error:', err);
-                setError(err.message);
-                setMessage(`Activation failed: ${err.message}`);
+            } catch (error) {
+                console.error('Error:', error);
+                setMessage('Error during activation: ' + error.message);
             }
         };
 
+        // Immediately call the function
         activateAccount();
-    }, [navigate]);
 
+        // Add a cleanup function
+        return () => {
+            console.log('Cleanup running');
+        };
+    }, []); // Empty dependency array
+
+    // Return immediate visual feedback
     return (
-        <div className="container mt-5">
-            <div className="row justify-content-center">
-                <div className="col-md-6">
-                    <div className="card">
-                        <div className="card-header text-center">
-                            <h2>Account Activation</h2>
-                        </div>
-                        <div className="card-body">
-                            {error ? (
-                                <div className="alert alert-danger" role="alert">
-                                    {error}
-                                </div>
-                            ) : (
-                                <div className="alert alert-info" role="alert">
-                                    {message}
-                                </div>
-                            )}
-                            
-                            <div className="mt-3">
-                                <h5>Debug Information:</h5>
-                                <pre className="bg-light p-3 mt-2" style={{ whiteSpace: 'pre-wrap' }}>
-                                    {`Current Path: ${window.location.pathname}
-API URL: ${process.env.REACT_APP_API_URL || 'Not configured'}
-Debug Log: ${debug}`}
-                                </pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div style={{ 
+            padding: '20px',
+            maxWidth: '600px',
+            margin: '40px auto',
+            textAlign: 'center',
+            border: '1px solid #ccc',
+            borderRadius: '8px',
+            backgroundColor: '#fff'
+        }}>
+            <h1>Account Activation Page</h1>
+            <p>{message}</p>
+            <div style={{
+                marginTop: '20px',
+                padding: '10px',
+                backgroundColor: '#f5f5f5',
+                borderRadius: '4px'
+            }}>
+                <p>Current Path: {window.location.pathname}</p>
+                <p>Debug Info: {debug}</p>
             </div>
         </div>
     );
