@@ -51,7 +51,7 @@ app.use(
 );
 
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: 'https://companyrotasoftware-3f6dcaa37799.herokuapp.com',
   credentials: true
 }));
 
