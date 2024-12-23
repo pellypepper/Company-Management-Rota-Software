@@ -9,7 +9,6 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require('bcrypt');
 const pool = require('./db');
-const RedisStore = require('connect-redis')(session); 
 const app = express();
 const PORT = process.env.PORT || 10000;
 const cors = require('cors');
