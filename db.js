@@ -5,12 +5,9 @@ const connectionString = process.env.DATABASE_URL;
 
 const pool = new Pool({
   connectionString: connectionString,
-  user: process.env.DATABASE_USER,
-  host: process.env.DATABASE_HOST,
-  database: process.env.DATABASE_NAME,
-  port: process.env.DATABASE_PORT,
-  password: process.env.DATABASE_PASSWORD,
- 
+  ssl: {
+    rejectUnauthorized: false
+}
 });
 
 pool.connect()
