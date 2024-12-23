@@ -48,20 +48,13 @@ main{
     transform: translateY(50px); 
     animation: fadeInSlideUp 1s ease forwards;
     cursor: pointer;
-    
+    color: var(--bg-color);
     height: 50px;
     border-radius: 10px;
     background-color: var(--primary-color);
     font-size: var(--avg-medium-font-size);
 }
-.btn button{
-    border: none;
-    outline: none;
-    color: var(--bg-color);
-    background-color: inherit;
-    cursor: pointer;
-    font-size: var(--avg-medium-font-size);
-}
+
 .btn:hover{
     background-color: var(--primary-color-dark); 
     transform: translateY(-5px); 

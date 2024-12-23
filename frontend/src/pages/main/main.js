@@ -16,12 +16,12 @@ export default function Main() {
                     <div className="row  ">
                         <div className="mt-5 row">
 
-                        <NavLink  className="btn  " to='/login'>  <button variant="flat" size="xxl"> 
+                        <NavLink  className="btn  " to='/login'>
                                 Login
-                              </button>   </NavLink>
-                              <NavLink  className="btn  mt-2" to='/register'>  <button  variant="flat" size="xxl">  
+                               </NavLink>
+                              <NavLink  className="btn  mt-2" to='/register'>    
                                 Sign Up
-                                </button></NavLink> 
+                               </NavLink> 
 
                         </div>
 

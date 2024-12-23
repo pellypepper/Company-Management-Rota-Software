@@ -34,18 +34,22 @@ const transporter = nodemailer.createTransport({
 const pgPool = require('pg').Pool; 
 const sessionStore = new pgSession({
     pool: pool, 
-    tableName: 'session' 
+    tableName: 'session' ,
+    createTableIfMissing: true
 });
 // Session Middleware 
 app.use(
   session({
     store: sessionStore,
-    secret: "f4z4gs$Gcg",
+  secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
-      secure: false
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: true,
+      secure: false,
+      sameSite: 'strict'
     },
   })
 );
@@ -95,25 +99,21 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  if (!user || !user.id) {
-    return done(new Error("Invalid user object for serialization"));
-  }
-  done(null, user.id);
+  if (!user?.id) return done(new Error("Invalid user object"));
+  done(null, { id: user.id, role: user.role });
 });
 
-passport.deserializeUser(async (id, done) => {
+passport.deserializeUser(async ({ id, role }, done) => {
   try {
-    const tables = ['manager', 'hr', 'staff']; 
-    for (const table of tables) {
-      const result = await pool.query(`SELECT * FROM ${table} WHERE id = $1`, [id]);
-      if (result.rows.length > 0) {
-        return done(null, result.rows[0]);
-      }
-    }
-  
-    return done(new Error('User not found'));
+    const result = await pool.query(
+      `SELECT * FROM ${role.toLowerCase()} WHERE id = $1`, 
+      [id]
+    );
+    
+    if (!result.rows[0]) return done(new Error('User not found'));
+    done(null, result.rows[0]);
   } catch (error) {
-    return done(error); 
+    done(error);
   }
 });
 
@@ -325,21 +325,17 @@ app.post('/addrole', async (req, res) => {
 });
 
 
-function isAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
+const isAuthenticated = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: "Session expired, please login again" });
   }
-  res.status(401).json({ message: "Unauthorized" });
-}
-const checkRole = (allowedRoles) => {
-  return (req, res, next) => {
-      if (!req.user || !allowedRoles.includes(req.user.role.toLowerCase())) {
-          return res.status(403).json({ 
-              message: 'You do not have permission to access this resource' 
-          });
-      }
-      next();
-  };
+  next();
+};
+const checkRole = (allowedRoles) => (req, res, next) => {
+  if (!req.user?.role || !allowedRoles.includes(req.user.role.toLowerCase())) {
+    return res.status(403).json({ message: 'Access denied' });
+  }
+  next();
 };
 
 

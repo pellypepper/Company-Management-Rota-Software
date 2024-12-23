@@ -25,6 +25,7 @@ const ActivateAccount = () => {
 
                 // Make the API call
                 const response = await fetch(`${process.env.REACT_APP_API_URL}/activate/${token}`);
+                console.log('Response:', `${process.env.REACT_APP_API_URL}/activate/${token}`);
                 console.log('Response:', response.status);
 
                 // Check response status
