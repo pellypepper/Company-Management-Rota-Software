@@ -1,0 +1,156 @@
+.timesheet-container {
+    width: 90%;
+    max-width: 1200px; 
+    margin: 0 auto;
+    margin-top: 2rem;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+  }
+  
+  .timesheet-container h1 {
+    text-align: center;
+    color:var(--bg-dark-color);
+    margin-bottom: 20px;
+    font-size: 2rem;
+  }
+  
+  .staff-timesheet {
+    margin-bottom: 40px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: white;
+  }
+  
+  .staff-timesheet h2 {
+    margin-bottom: 10px;
+    color:var(--bg-dark-color);
+    font-size: 1.5rem; 
+  }
+  
+  .timesheet-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .timesheet-table th,
+  .timesheet-table td {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-size: 1rem; 
+  }
+  
+  .timesheet-table th {
+    background-color: var(--primary-color);
+    color:var(--bg-dark-color);
+    text-align: center; 
+  }
+  
+  .summary {
+    font-size: 1.2rem;
+    margin-top: 10px;
+  }
+  
+  .summary strong {
+    color:var(--bg-dark-color);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .timesheet-container {
+      max-width: 100%;
+      padding: 15px;
+    }
+  
+    .staff-timesheet h2 {
+      font-size: 1.3rem;
+    }
+  
+    .summary {
+      font-size: 1rem;
+    }
+  
+    .timesheet-table th,
+    .timesheet-table td {
+      padding: 8px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .timesheet-container {
+      width: 100%;
+      padding: 10px;
+    }
+  
+    .timesheet-container h1 {
+      font-size: 1.8rem; 
+    }
+  
+    .staff-timesheet {
+      padding: 15px;
+    }
+  
+    .timesheet-table th,
+    .timesheet-table td {
+      font-size: 0.9rem;
+      padding: 5px;
+    }
+  
+    .summary {
+      font-size: 0.9rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .timesheet-container h1 {
+      font-size: 1.3rem; 
+    }
+  
+    .staff-timesheet h2 {
+      font-size: 1rem;
+    }
+  
+    .timesheet-table th,
+    .timesheet-table td {
+      font-size: 0.7rem;
+      padding: 5px;
+    }
+  
+    .summary {
+      font-size: 0.7rem;
+    }
+  
+    .timesheet-table th {
+      font-size: 0.7rem; 
+    }
+  }
+
+  @media (max-width: 390px) {
+    .timesheet-container h1 {
+      font-size: 1rem; 
+    }
+  
+    .staff-timesheet h2 {
+      font-size: 1rem;
+    }
+  
+    .timesheet-table th,
+    .timesheet-table td {
+      font-size: 0.5rem;
+      padding: 5px;
+    }
+  
+    .summary {
+      font-size: 0.6rem;
+    }
+  
+    .timesheet-table th {
+      font-size: 0.4rem; 
+    }
+  }
+  

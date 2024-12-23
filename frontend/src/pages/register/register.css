@@ -1,0 +1,196 @@
+
+.register-container{
+
+
+  height: 100vh;
+   display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--bg-color);
+  
+}
+.row{
+   
+
+
+    
+}
+.container{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+
+
+.signup-wrapper{
+    border: 2px solid var(--bg-color);
+    border-radius: 15px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.signup-wrapper:hover {
+    transform: translateY(-10px); 
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.15); 
+  }
+.login-text{
+    width: 50%;
+    margin: 0 auto;
+    animation: fadeIn 1s ease-in-out;
+padding: 10px;
+    background-color: var(--secondary-color);
+     
+}
+p{
+    font-size: var(--avg-small-font-size);
+}
+.text{
+    font-size: var(--avg-small-font-size);
+}
+#btn{
+    width: 100%;
+
+border: none;
+transition: all 0.3s ease;
+    cursor: pointer;
+    height: 50px;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+    font-size: var(--avg-medium-font-size);
+}
+#btn:hover {
+    background-color: var(--primary-color-dark); 
+    transform: translateY(-5px); 
+    border: 2px solid var(--bg-color);
+    color: var(--bg-color);
+  }
+  /* Smooth animation for signup-1 and its elements */
+.signup-1 {
+    width: 50%;
+    margin: auto;
+    color: var(--bg-color);
+    animation: slideInLeft 1.5s ease-in-out;
+}
+
+.signup-1 h1 {
+    font-size: var(--avg-large-font-size);
+    animation: fadeInUp 2s ease-in-out;
+}
+
+.signup-1 p {
+    font-size: var(--avg-small-font-size);
+    text-align: left;
+    animation: fadeInUp 2.2s ease-in-out;
+}
+
+.signup-1 img {
+    width: 50%;
+    margin: auto;
+    animation: zoomIn 1.8s ease-in-out;
+}
+
+/* Smooth hover animation for signup-wrapper */
+.signup-wrapper {
+    border: 2px solid var(--bg-color);
+    border-radius: 15px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    animation: fadeIn 1.5s ease-in-out;
+    height: max-content;
+}
+.signup-wrapper button{
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.signup-wrapper:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.15);
+}
+
+/* Keyframes for animations */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+
+@media screen and (max-width: 481px) {
+    .register-container{
+
+
+        height: max-content;
+    
+        
+      }
+   
+    .text{
+        font-size: var(--mob-small-font-size);
+    }
+    p{
+        font-size: var(--avg-mob-font-size);
+    }
+}
+@media screen and (max-width: 390px) {
+    main{
+     
+    }
+    .text{
+        font-size: var(--mob-xsmall-font-size);
+    }
+    p{
+        font-size: var(--avg-xsmall-font-size);
+    }
+}
+@media screen and (max-width: 768px) {
+    .signup-1{
+
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .text{
+        font-size: var(--large-xsmall-font-size);
+    }
+    p{
+        font-size: var(--large-small-font-size);
+    }
+}

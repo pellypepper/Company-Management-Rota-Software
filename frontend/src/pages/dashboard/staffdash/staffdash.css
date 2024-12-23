@@ -1,0 +1,269 @@
+.staff-dash-container {
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    background: linear-gradient(145deg, #f3f4f6, #e4e5e7);
+    font-family: 'Arial', sans-serif;
+}
+.staff-dash-container h1{
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin: 20px 0;
+    margin-bottom: 3rem;
+}
+.dash-nav-wrapper nav {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.dash-nav-wrapper nav div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.dash-nav-wrapper nav div:hover {
+    transform: scale(1.1);
+    color: var(--primary-color);
+}
+
+.dash-nav-wrapper nav div:hover .nav-icon {
+    color: var(--secondary-color);
+}
+
+.dash-nav-wrapper nav div p {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.nav-icon {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    transition: color 0.3s ease-in-out;
+}
+
+.dash-content-wrapper, .dash-current-shift {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #eaeaea);
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.1), -8px -8px 15px rgba(255, 255, 255, 0.7);
+    transition: all 0.4s ease-in-out;
+}
+
+.dash-content-wrapper:hover, .dash-current-shift:hover {
+    transform: translateY(-10px);
+    box-shadow: 12px 12px 25px rgba(0, 0, 0, 0.2), -12px -12px 25px rgba(255, 255, 255, 0.8);
+}
+
+.dash-content {
+    padding: 10px;
+ display: flex;
+ justify-content: space-between;
+ align-items: end;
+
+}
+.dash-content div{
+     
+
+
+}
+
+.dash-content h2 {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+.dash-content p {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+.date {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+
+}
+
+.shift-details {
+    animation: slideIn 0.8s ease-out;
+}
+
+.shift-details h2 {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.shift-details p {
+    font-size: 1rem;
+    margin: 5px 0;
+    color: var(--text-color);
+}
+
+.shift-details div {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    color: var(--text-color);
+}
+
+.shift-details button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    width: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.shift-details button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.error-message {
+    color: red;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Media Queries */
+@media screen and (max-width: 481px) {
+    .staff-dash-container h1{
+        font-size: 1.5rem;
+   
+    }
+    .dash-nav-wrapper nav div p {
+        font-size: 0.7rem;
+    }
+    .nav-icon {
+        font-size: 1.1rem;
+    }
+    .dash-content h1, .shift-details h1 {
+        font-size: 1.5rem;
+    }
+    .shift-details button {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+
+
+.dash-content h2 {
+    font-size: var(--mob-small-font-size);
+
+}
+
+.dash-content p {
+    font-size: .8rem;
+
+}
+
+.date {
+    font-size: 1rem;
+
+
+}
+
+
+
+.shift-details h2 {
+    font-size: 1rem;
+  
+}
+
+.shift-details p {
+    font-size: .8rem;
+ 
+}
+}
+
+@media screen and (max-width: 390px) {
+    .staff-dash-container h1{
+        font-size: 1.2rem;
+   
+    }
+    .dash-nav-wrapper nav div p {
+        font-size: 0.6rem;
+    }
+    .nav-icon {
+        font-size: 1rem;
+    }
+    .dash-content h1, .shift-details h1 {
+        font-size: 1rem;
+    }
+    .shift-details button {
+        font-size: 0.8rem;
+        padding: 8px 15px;
+    }
+
+
+.dash-content h2 {
+    font-size: .8rem;
+
+}
+
+.dash-content p {
+    font-size: .6rem;
+
+}
+
+.date {
+    font-size: 1rem;
+
+
+}
+
+
+
+.shift-details h2 {
+    font-size: .8rem;
+  
+}
+
+.shift-details p {
+    font-size: .6rem;
+ 
+}
+}

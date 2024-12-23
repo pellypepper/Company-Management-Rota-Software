@@ -1,0 +1,56 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+}
+
+:root{
+   --primary-color: #2c66a9;
+   --primary-dark-color: #164376;
+   --secondary-color: #6c757d;
+   --subcolor: #7BC950;
+   --bg-color:   white;
+   --bg-dark-color: black;
+   --box-shadow-color: #374c44;
+   --text-color: #B6EFD4
+   
+   --avg-xsmall-font-size: .8rem;
+   --avg-small-font-size: 1rem;
+   --avg-medium-font-size: 1.2rem;
+   --avg-large-font-size: 1.5rem;
+
+   --mob-xsmall-font-size: .6rem; 
+   --mob-small-font-size: .8rem;
+   --mob-small-font-size: 1rem;
+    --mob-medium-font-size: 1.2rem;
+    --mob-large-font-size: 2rem;
+
+    --large-xsmall-font-size: 1.2rem;
+    --large-small-font-size: 1.4rem;
+   --large-medium-font-size: 1.6rem;
+    --large-large-font-size: 2.4rem;
+
+}
+
+html{
+  scroll-behavior: smooth;
+}
+
+body{
+
+  font-family: "Work Sans", sans-serif;
+width: 100%;
+
+}
+
+.btn{
+  opacity: 0; /* Initially hidden for fade-in */
+  transform: translateY(50px); /* Starting position for slide */
+  animation: fadeInSlideUp 1s ease forwards;
+  cursor: pointer;
+  height: 50px;
+  border-radius: 10px;
+  background-color: var(--primary-color);
+  font-size: var(--avg-medium-font-size);
+}

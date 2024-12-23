@@ -1,0 +1,117 @@
+
+.staff-shift-container {
+    padding: 20px;
+    width: 90%;
+    max-width: 800px; 
+    margin: 0 auto;
+    margin-top: 2rem;
+    background-color: #f9f9f9; 
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .shift-navigation {
+    margin-bottom: 20px;
+    padding: 10px;
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+    border: 1px solid var(--primary-color); 
+    background-color: var(--primary-color); 
+    color:var(--bg-dark-color);
+    border-radius: 8px; 
+  }
+  .shift-navigation h1{
+    font-size: 1rem;
+    color: #000;
+  }
+  
+  .arrow-button {
+    background: none;
+    color:var(--bg-dark-color);
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 20px;
+    transition: transform 0.2s ease; 
+  }
+  
+  .arrow-button:hover {
+    transform: scale(1.2); 
+  }
+  
+  .current-date {
+    flex: 1; 
+    text-align: center; 
+    font-size: 1.5rem; 
+  }
+  
+  .shift-list {
+    margin-top: 20px;
+  }
+  
+  .staff-shift-item {
+    background-color: #fff; 
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .staff-shift-item:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+  }
+  
+  .staff-name {
+    font-weight: bold; 
+  }
+  
+  .working-time {
+    color: #555; 
+  }
+  
+  .no-shifts {
+    text-align: center; 
+    color: #999; 
+  }
+  .staff-shift-item p{
+    font-size: 1rem;
+  }
+  .staff-shift-item span{
+    font-size: .8rem;
+  }
+  
+  @media screen and (max-width: 390px) {
+    .staff-shift-container {
+      padding: 10px; 
+    }
+  
+    .shift-navigation {
+      padding: 5px; 
+    }
+  
+    .arrow-button {
+      font-size: 17px;
+      padding: 5px; 
+    }
+  
+    .current-date {
+      font-size: 1rem; 
+    }
+  
+    .staff-shift-item {
+      padding: 10px; 
+    }
+     .shift-list p{
+      font-size: 0.8rem;
+     }
+    
+     .staff-shift-item p{
+      font-size: .8rem;
+    }
+    .staff-shift-item span{
+      font-size: .7rem;
+      margin-top: -2rem;
+    }
+  }
