@@ -8,7 +8,8 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require('bcrypt');
-const pool = require('./db'); 
+const pool = require('./db');
+const RedisStore = require('connect-redis')(session); 
 const app = express();
 const PORT = process.env.PORT || 10000;
 const cors = require('cors');
@@ -33,12 +34,13 @@ const transporter = nodemailer.createTransport({
 // Session Middleware 
 app.use(
   session({
+    store: sessionStore,
     secret: "f4z4gs$Gcg",
     resave: false,
     saveUninitialized: false,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
-      secure: process.env.NODE_ENV === 'production'
+      secure: false
     },
   })
 );
