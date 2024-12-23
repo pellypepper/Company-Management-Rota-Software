@@ -20,6 +20,7 @@ const leaveRoute = require('./leaveRoute');
 const managerRoute = require('./managerRoute');
 
 // Middleware
+app.use(express.static(path.join(__dirname, 'frontend/build')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -147,7 +148,7 @@ app.use('/leave', leaveRoute);
 app.use('/manager', managerRoute);
 
 
-app.use(express.static(path.join(__dirname, 'frontend/build')));
+
 
 app.post('/login', (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
