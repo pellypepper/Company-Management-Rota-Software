@@ -274,12 +274,12 @@ app.get('/activate/:token', async (req, res) => {
 app.post('/addrole', async (req, res) => {
   const { position, role, pay, name } = req.body;
 
-
+   
   try {
     const roleCheck = await pool.query(
       `SELECT * FROM staffrole WHERE name = $1 
        UNION 
-       SELECT * FROM managerrole WHERE name = $1`,
+       SELECT * FROM managerole WHERE name = $1`,
       [name]
   );
 
