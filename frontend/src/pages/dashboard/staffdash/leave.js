@@ -24,7 +24,7 @@ const Leave = () => {
   useEffect(() => {
     const fetchLeaveData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/leave/staff/${user.id}`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}leave/staff/${user.id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -77,7 +77,7 @@ const Leave = () => {
 
     
     try {
-      const response = await fetch(`http://localhost:3000/leave/request/${user.id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/leave/request/${user.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

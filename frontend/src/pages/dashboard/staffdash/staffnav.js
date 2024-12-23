@@ -39,7 +39,7 @@ export default function StaffDashboard() {
     const handleLogout = async () => {
         try {
             setLoading(true);
-          const response = await axios.post('http://localhost:3000/logout', {}, { withCredentials: true });
+          const response = await axios.post(`${process.env.REACT_APP_API_URL}/logout`, {}, { withCredentials: true });
       
           if (response.status === 200) {
             navigate("/"); 

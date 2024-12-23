@@ -110,7 +110,7 @@ export default function RegisterPage() {
 
         try {
             setLoading(true);
-            const response = await axios.post('http://localhost:3000/register', newUser, { 
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`, newUser, { 
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json'

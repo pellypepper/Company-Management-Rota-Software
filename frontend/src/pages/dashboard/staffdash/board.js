@@ -14,7 +14,7 @@ export default function Maindash() {
     useEffect(() => {
         const fetchNextShift = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/staff/${user.id}/next-shift`, {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/staff/${user.id}/next-shift`, {
                     method: 'GET',
                     credentials: 'include',
                 });

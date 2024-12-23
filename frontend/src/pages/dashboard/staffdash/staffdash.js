@@ -24,7 +24,7 @@ export default function StaffDashboard() {
 
         try {
             
-            const response = await fetch(`http://localhost:3000/shifts/staff/${user.id}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/shifts/staff/${user.id}`, {
                 method: 'GET',
                 credentials: 'include',
             });

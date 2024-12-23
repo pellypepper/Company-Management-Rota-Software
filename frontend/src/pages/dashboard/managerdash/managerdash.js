@@ -38,7 +38,7 @@ useEffect(() => {
     const fetchStaffData = async () => {
         setIsLoading(true);
         try {
-            const response = await axios.get('http://localhost:3000/staff');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/staff`);
             setStaffDatas(response.data);
     
         } catch (error) {
@@ -55,7 +55,7 @@ useEffect(() => {
 const fetchShifts = async () => {
   setIsLoading(true);
   try {
-      const response = await axios.get('http://localhost:3000/shifts');
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/shifts`);
       setShifts(response.data);
   
   } catch (error) {
@@ -70,7 +70,7 @@ const fetchShifts = async () => {
 const fetchLeave = async () => {
   setIsLoading(true);
   try {
-      const response = await axios.get('http://localhost:3000/leave');
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/leave`);
       setLeaveRequests(response.data);
      
   } catch (error) {
@@ -82,7 +82,7 @@ const fetchLeave = async () => {
 };
 const fetchStaffDetails = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/staff/timesheet');
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/staff/timesheet`);
     const staffDetails = response.data;
     setStaffDetails(staffDetails);
 
@@ -136,7 +136,7 @@ const formatTime = (time) => {
 const handleLogout = async () => {
   try {
     setIsLoading(true);
-    const response = await axios.post('http://localhost:3000/logout', {}, { withCredentials: true });
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/logout`, {}, { withCredentials: true });
 
     if (response.status === 200) {
       navigate("/"); 
@@ -167,7 +167,7 @@ const handleAddShift = async () => {
     try {
       setIsLoading(true);
 
-      const response = await axios.post('http://localhost:3000/shifts/addShift', formattedShift);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/shifts/addShift`, formattedShift);
      
       if (response.status === 201) {
        
@@ -194,7 +194,7 @@ const handleAddShift = async () => {
 
 const handleDeleteShift = async (id) => {
   try {
-      const response = await axios.delete(`http://localhost:3000/shifts/delete/${id}`);
+      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/shifts/delete/${id}`);
       
     
       if (response.status === 200) {
@@ -221,7 +221,7 @@ const handleDeleteShift = async (id) => {
 
     try {
       
-        const response = await axios.put(`http://localhost:3000/leave/approve/${request.id}`);
+        const response = await axios.put(`${process.env.REACT_APP_API_URL}/leave/approve/${request.id}`);
 
         if (response.status === 200) {
 
@@ -254,7 +254,7 @@ const handleDeleteShift = async (id) => {
    
     try {
         
-        const response = await axios.put(`http://localhost:3000/leave/decline/${request.id}`);
+        const response = await axios.put(`${process.env.REACT_APP_API_URL}/leave/decline/${request.id}`);
 
      
         if (response.status === 200) {
@@ -280,7 +280,7 @@ const handleDeleteShift = async (id) => {
 
 const handleDeleteLeave = async (id) => {
   try {
-      const response = await axios.delete(`http://localhost:3000/leave/delete/${id}`);
+      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/leave/delete/${id}`);
       
 
       if (response.status === 200) {

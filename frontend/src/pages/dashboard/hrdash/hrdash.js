@@ -28,7 +28,7 @@ const HrDashboard = () => {
 
     const fetchStaff = async () => {
         try {
-            const response = await fetch('http://localhost:3000/staff', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/staff`, {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -42,7 +42,7 @@ const HrDashboard = () => {
 
     const fetchAllStaff = async () => {
         try {
-            const response = await fetch('http://localhost:3000/staff/all', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/staff/all`, {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -56,7 +56,7 @@ const HrDashboard = () => {
 
     const fetchAllManager = async () => {
         try {
-            const response = await fetch('http://localhost:3000/manager/info', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/manager/info`, {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -71,7 +71,7 @@ const HrDashboard = () => {
 
     const fetchManager = async () => {
         try {
-            const response = await fetch('http://localhost:3000/manager', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/manager`, {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -92,7 +92,7 @@ const HrDashboard = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/addrole', {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/addrole`, {
                 name,
                 position,
                 role,
@@ -111,7 +111,7 @@ const HrDashboard = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/logout', {}, { withCredentials: true });
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/logout`, {}, { withCredentials: true });
             if (response.status === 200) {
                 navigate("/");
             } else {

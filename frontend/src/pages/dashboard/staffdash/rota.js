@@ -8,7 +8,7 @@ const Rota = () => {
 
   const fetchStaffData = async (date) => {
     try {
-      const response = await fetch(`http://localhost:3000/shifts/date/${date}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/shifts/date/${date}`);
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }

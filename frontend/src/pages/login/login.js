@@ -43,7 +43,7 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:3000/login', user, { withCredentials: true });
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/login`, user, { withCredentials: true });
             if (response.data.redirect) {
                 sessionStorage.setItem("user", JSON.stringify(response.data.user));
                 navigate(response.data.redirect, { state: { user: response.data.user } });
