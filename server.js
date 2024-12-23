@@ -277,9 +277,10 @@ app.post('/addrole', async (req, res) => {
    
   try {
     const roleCheck = await pool.query(
-      `SELECT * FROM staffrole WHERE name = $1 
-       UNION 
-       SELECT * FROM managerole WHERE name = $1`,
+      `SELECT CAST(id AS VARCHAR) AS identifier FROM managerrole WHERE name = $1
+      UNION
+      SELECT name FROM staffrole WHERE name = $1;
+      `,
       [name]
   );
 
