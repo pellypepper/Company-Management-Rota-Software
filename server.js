@@ -190,7 +190,7 @@ app.post('/register', async (req, res) => {
 
       // Generate an activation token
       const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-      const activationLink = `http://localhost:3001/activate/${token}`;
+      const activationLink = `${process.env.REACT_APP_API_URL}/activate/${token}`;
     
 
       // Send activation email
