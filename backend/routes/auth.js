@@ -1,8 +1,14 @@
+
+const passport = require('passport');
 const express = require('express');
+const router = express.Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const pool = require('../db');
+const { sendActivationEmail } = require('../email');
 
 
-
-app.post('/login', (req, res, next) => {
+router.post('/login', (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
       if (err) {
         return res.status(500).json({ message: "Internal server error." });
@@ -11,12 +17,10 @@ app.post('/login', (req, res, next) => {
         return res.status(401).json({ message: info.message });
       }
   
-   
       if (!user.isverified) {
         return res.status(400).json({ message: 'Please verify your email before logging in.' });
       }
   
-     
       req.logIn(user, (err) => {
         if (err) {
           return res.status(500).json({ message: "Login failed." });
@@ -24,11 +28,10 @@ app.post('/login', (req, res, next) => {
   
         const userRole = user.role.toLowerCase();
         const redirectPath = 
-        userRole === "hr" ? '/hrdash' : 
-        userRole === "manager" ? '/managerdash' : 
-        '/staffdash';
+          userRole === "hr" ? '/hrdash' : 
+          userRole === "manager" ? '/managerdash' : 
+          '/staffdash';
       
-     
         return res.json({
           redirect: redirectPath,
           user: {
@@ -41,13 +44,14 @@ app.post('/login', (req, res, next) => {
         });
       });
     })(req, res, next);
-  });
-  
-  app.post('/register', async (req, res) => {
-    const { firstName, lastName, email, password, role, address, state, zipcode, city } = req.body;
-  
-    try {
-       
+  })
+
+router.post('/register', async (req, res) => {
+      const { firstName, lastName, email, password, role, address, state, zipcode, city } = req.body;
+    
+      try {
+    
+
         const existingManager = await pool.query('SELECT * FROM manager WHERE email = $1', [email]);
         const existingStaff = await pool.query('SELECT * FROM staff WHERE email = $1', [email]);
         const existingHr = await pool.query('SELECT * FROM hr WHERE email = $1', [email]);
@@ -57,132 +61,128 @@ app.post('/login', (req, res, next) => {
             return res.status(401).json({ message: "User already exists." });
         }
   
-  
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-  
-  
-        const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        const activationLink = `${process.env.REACT_APP_API_URL}/activate/${token}`;
+   
+    
+          const salt = await bcrypt.genSalt(10);
+          const hashedPassword = await bcrypt.hash(password, salt);
+    
+          console.log("Received registration data:", req.body);
+          const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+          const activationLink = `${process.env.REACT_APP_API_URL}/activate/${token}`;
+        
+    
+          await sendActivationEmail(email, activationLink);
+    
+    
+          let tableName = role === "hr" ? "hr": role === "manager" ? "manager" : "staff";
+          const name = firstName + " " + lastName;
+    
+          const insertResult = await pool.query(
+              `INSERT INTO ${tableName} (name, email, password, role, address, state, zipcode, city, isVerified) 
+              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
+              RETURNING *`,
+              [name, email, hashedPassword, role, address, state, zipcode, city, false] 
+          );
+    
+          if (!insertResult.rows[0]) {
+              return res.status(500).json({ message: `Failed to create ${role}.` });
+          }
+    
+    
+          return res.json({
+              message: 'Registration successful. Please check your email to activate your account.',
+          });
+    
+      } catch (error) {
       
-  
-  
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: 'Activate your account',
-            text: `Welcome to the Company Rota Management System. Click the link to activate your account: ${activationLink} to proceed with login`,
-        });
-  
-  
-        let tableName = role === "hr" ? "hr": role === "manager" ? "manager" : "staff";
-        const name = firstName + " " + lastName;
-  
-        const insertResult = await pool.query(
-            `INSERT INTO ${tableName} (name, email, password, role, address, state, zipcode, city, isVerified) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
-            RETURNING *`,
-            [name, email, hashedPassword, role, address, state, zipcode, city, false] 
-        );
-  
-        if (!insertResult.rows[0]) {
-            return res.status(500).json({ message: `Failed to create ${role}.` });
+          return res.status(500).json({ message: "Internal server error." });
+      }
+    });
+
+router.get('/activate/:token', async (req, res) => {
+        const { token } = req.params;
+      
+      
+        try {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET);
+          console.log('Decoded token:', decoded); 
+      
+      
+          const tables = ['manager', 'staff', 'hr'];
+          let user = null;
+      
+          for (const table of tables) {
+            const result = await pool.query(`SELECT * FROM ${table} WHERE email = $1`, [decoded.email]);
+            if (result.rows.length > 0) {
+              user = { ...result.rows[0], table }; 
+              break;
+            }
+          }
+      
+          if (!user) {
+            return res.status(400).json({ message: 'Invalid activation link' });
+          }
+      
+      
+          const updateResult = await pool.query(
+            `UPDATE ${user.table} SET isVerified = $1 WHERE email = $2`,
+            [true, decoded.email]
+          );
+      
+          if (updateResult.rowCount > 0) {
+            return res.send(`
+              <!DOCTYPE html>
+              <html lang="en">
+              <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Account Activated</title>
+                  <style>
+                      body {
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                          height: 100vh;
+                          background-color: #f0f4f8;
+                          font-family: Arial, sans-serif;
+                      }
+                      .message {
+                          text-align: center;
+                          padding: 20px;
+                          border: 1px solid #ddd;
+                          border-radius: 5px;
+                          background-color: #fff;
+                          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                      }
+                      .success {
+                          color: green;
+                          font-size: 24px;
+                      }
+                  </style>
+              </head>
+              <body>
+                  <div class="message">
+                      <h2 class="success">Account activated successfully!</h2>
+                      <p>You can now log in.</p>
+                      <p>Redirecting to login page...</p>
+                      <script>
+                          // Redirect to login page after 2 seconds
+                          setTimeout(() => {
+                              window.location.href = '/login'; // Update this path as necessary
+                          }, 2000);
+                      </script>
+                  </div>
+              </body>
+              </html>
+            `);
+          } else {
+            throw new Error('Failed to update verification status.');
+          }
+        } catch (error) {
+        
+          res.status(400).json({ message: 'Invalid or expired activation link' });
         }
-  
-  
-        return res.json({
-            message: 'Registration successful. Please check your email to activate your account.',
-        });
-  
-    } catch (error) {
-    
-        return res.status(500).json({ message: "Internal server error." });
-    }
-  });
-  
-  
-  
-  app.get('/activate/:token', async (req, res) => {
-    const { token } = req.params;
-  
-  
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log('Decoded token:', decoded); 
-  
-  
-      const tables = ['manager', 'staff', 'hr'];
-      let user = null;
-  
-      for (const table of tables) {
-        const result = await pool.query(`SELECT * FROM ${table} WHERE email = $1`, [decoded.email]);
-        if (result.rows.length > 0) {
-          user = { ...result.rows[0], table }; 
-          break;
-        }
-      }
-  
-      if (!user) {
-        return res.status(400).json({ message: 'Invalid activation link' });
-      }
-  
-  
-      const updateResult = await pool.query(
-        `UPDATE ${user.table} SET isVerified = $1 WHERE email = $2`,
-        [true, decoded.email]
-      );
-  
-      if (updateResult.rowCount > 0) {
-        return res.send(`
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Account Activated</title>
-              <style>
-                  body {
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                      height: 100vh;
-                      background-color: #f0f4f8;
-                      font-family: Arial, sans-serif;
-                  }
-                  .message {
-                      text-align: center;
-                      padding: 20px;
-                      border: 1px solid #ddd;
-                      border-radius: 5px;
-                      background-color: #fff;
-                      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                  }
-                  .success {
-                      color: green;
-                      font-size: 24px;
-                  }
-              </style>
-          </head>
-          <body>
-              <div class="message">
-                  <h2 class="success">Account activated successfully!</h2>
-                  <p>You can now log in.</p>
-                  <p>Redirecting to login page...</p>
-                  <script>
-                      // Redirect to login page after 2 seconds
-                      setTimeout(() => {
-                          window.location.href = '/login'; // Update this path as necessary
-                      }, 2000);
-                  </script>
-              </div>
-          </body>
-          </html>
-        `);
-      } else {
-        throw new Error('Failed to update verification status.');
-      }
-    } catch (error) {
-    
-      res.status(400).json({ message: 'Invalid or expired activation link' });
-    }
-  });
+      });
+      
+
+      module.exports = router;
