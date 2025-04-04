@@ -1,38 +1,30 @@
 const express = require('express');
 require('dotenv').config();
 const path = require('path');
-const nodemailer = require('nodemailer');
-const jwt = require('jsonwebtoken');
-const bodyParser = require('body-parser');
 const session = require("express-session");
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const bcrypt = require('bcryptjs');
-const pool = require('./db');
+
+const pool = require('./backend/db');
 const app = express();
 const pgSession = require('connect-pg-simple')(session);
+const cors = require('cors');
+const { initializePassport } = require('./backend/auth');
+const shiftRoute = require('./backend/routes/shiftRoute');
+const staffRoute = require('./backend/routes/staffRoute');
+const leaveRoute = require('./backend/routes/leaveRoute');
+const managerRoute = require('./backend/routes/managerRoute');
+const { isAuthenticated, checkRole } = require('./backend/middleware/middleware');
+
+
 const { Pool } = require('pg');
 const PORT = process.env.PORT || 10000;
-const cors = require('cors');
-const shiftRoute = require('./shiftRoute');
-const staffRoute = require('./staffRoute');
-const leaveRoute = require('./leaveRoute');
-const managerRoute = require('./managerRoute');
-
 
 
 app.use(express.static(path.join(__dirname, 'frontend/build')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-});
 const pgPool = require('pg').Pool; 
 const sessionStore = new pgSession({
     pool: pool, 
@@ -61,84 +53,8 @@ app.use(cors({
   credentials: true
 }));
 
-passport.use(
-  new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
-  }, async (email, password, done) => {
-    try {
-     
-      let result = await pool.query('SELECT * FROM manager WHERE email = $1', [email]);
-      let user = result.rows[0];
 
-
-      if (!user) {
-        result = await pool.query('SELECT * FROM staff WHERE email = $1', [email]);
-        user = result.rows[0];
-      }
-      if (!user) {
-        result = await pool.query('SELECT * FROM Hr WHERE email = $1', [email]);
-        user = result.rows[0];
-      }
-
-    
-      if (!user) {
-        return done(null, false, { message: 'No user found with that email.' });
-      }
-
-      
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-
-      return done(null, user);
-    } catch (error) {
-      console.error('Error in LocalStrategy:', error);
-      return done(error);
-    }
-  })
-);
-
-
-passport.serializeUser((user, done) => {
-  if (!user?.id || !user?.role) {
-    return done(new Error("Invalid user object"));
-  }
-
-  const normalizedRole = user.role.toLowerCase();
-  done(null, { id: user.id, role: normalizedRole });
-});
-
-passport.deserializeUser(async ({ id, role }, done) => {
-  try {
-
-    const validRoles = ['hr', 'manager', 'staff'];
-    if (!validRoles.includes(role)) {
-      return done(new Error('Invalid role'));
-    }
-
-    const result = await pool.query(
-      `SELECT id, name, email, role, city, isverified FROM ${role} WHERE id = $1`,
-      [id]
-    );
-    
-    if (!result.rows[0]) {
-      return done(new Error('User not found'));
-    }
-
-    const user = result.rows[0];
-
-    if (user.role.toLowerCase() !== role) {
-      return done(new Error('Role mismatch'));
-    }
-
-    done(null, user);
-  } catch (error) {
-    done(error);
-  }
-});
-
+initializePassport(passport);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -391,20 +307,6 @@ app.post('/addrole', async (req, res) => {
 });
 
 
-const isAuthenticated = (req, res, next) => {
-  if (!req.isAuthenticated()) {
-    return res.status(401).json({ message: "Session expired, please login again" });
-  }
-  next();
-};
-
-const checkRole = (allowedRoles) => (req, res, next) => {
-  const userRole = req?.user?.role?.toLowerCase();
-  if (!userRole || !allowedRoles.includes(userRole)) {
-    return res.status(403).json({ message: 'Access denied' });
-  }
-  next();
-};
 
 
 
