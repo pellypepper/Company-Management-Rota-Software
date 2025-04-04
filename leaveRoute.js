@@ -6,7 +6,7 @@ const pool = require('./db');
 
 router.get('/', async (req, res) => {
     try {
-      // Adjust the query to join the leave table with the staff table
+      
       const allleave = await pool.query(`
             SELECT 
                 leave.id, 
