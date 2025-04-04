@@ -6,7 +6,7 @@ const pool = require('./db');
 
   
   router.get('/:id/next-shift', async (req, res) => {
-    const userId = req.params.id; // Extract user ID from request parameters
+    const userId = req.params.id;
   
     try {
       const result = await pool.query(
@@ -92,17 +92,17 @@ router.get('/', async (req, res) => {
   
       const timesheet = await pool.query(query);
   
-      // Format total_hours for each row
+    
       const formattedTimesheet = timesheet.rows.map(row => ({
         ...row,
-        total_hours: parseFloat(row.total_hours).toFixed(2) // Ensure total_hours is a number and format it to 2 decimal places
+        total_hours: parseFloat(row.total_hours).toFixed(2) 
       }));
   
     
   
       res.status(200).json(formattedTimesheet);
     } catch (error) {
-    res.status(500).json({ message: 'Internal server error', error: error.message }); // Include error message in response for better debugging
+    res.status(500).json({ message: 'Internal server error', error: error.message });
     }
   });
   router.get('/all', async (req, res) => {

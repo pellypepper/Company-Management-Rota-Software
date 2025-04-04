@@ -19,12 +19,13 @@ const staffRoute = require('./staffRoute');
 const leaveRoute = require('./leaveRoute');
 const managerRoute = require('./managerRoute');
 
-// Middleware
+
+
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Email transporter
+
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -38,7 +39,7 @@ const sessionStore = new pgSession({
     tableName: 'session' ,
     createTableIfMissing: true
 });
-// Session Middleware 
+
 app.use(
   session({
     store: sessionStore,
@@ -66,11 +67,11 @@ passport.use(
     passwordField: 'password',
   }, async (email, password, done) => {
     try {
-      // First check manager table
+     
       let result = await pool.query('SELECT * FROM manager WHERE email = $1', [email]);
       let user = result.rows[0];
 
-      // If not found in manager table, check staff table
+
       if (!user) {
         result = await pool.query('SELECT * FROM staff WHERE email = $1', [email]);
         user = result.rows[0];
@@ -80,12 +81,12 @@ passport.use(
         user = result.rows[0];
       }
 
-      // If user not found in either table
+    
       if (!user) {
         return done(null, false, { message: 'No user found with that email.' });
       }
 
-      // Verify password
+      
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
         return done(null, false, { message: 'Incorrect password.' });
@@ -164,7 +165,7 @@ app.post('/login', (req, res, next) => {
       return res.status(400).json({ message: 'Please verify your email before logging in.' });
     }
 
-    // Log in the user
+   
     req.logIn(user, (err) => {
       if (err) {
         return res.status(500).json({ message: "Login failed." });
@@ -176,7 +177,7 @@ app.post('/login', (req, res, next) => {
       userRole === "manager" ? '/managerdash' : 
       '/staffdash';
     
-      // Return user details along with redirect path
+   
       return res.json({
         redirect: redirectPath,
         user: {
@@ -195,7 +196,7 @@ app.post('/register', async (req, res) => {
   const { firstName, lastName, email, password, role, address, state, zipcode, city } = req.body;
 
   try {
-      // Check if the user already exists
+     
       const existingManager = await pool.query('SELECT * FROM manager WHERE email = $1', [email]);
       const existingStaff = await pool.query('SELECT * FROM staff WHERE email = $1', [email]);
       const existingHr = await pool.query('SELECT * FROM hr WHERE email = $1', [email]);
@@ -205,16 +206,16 @@ app.post('/register', async (req, res) => {
           return res.status(401).json({ message: "User already exists." });
       }
 
-      // Hash the password
+
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
 
-      // Generate an activation token
+
       const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
       const activationLink = `${process.env.REACT_APP_API_URL}/activate/${token}`;
     
 
-      // Send activation email
+
       await transporter.sendMail({
           from: process.env.EMAIL_USER,
           to: email,
@@ -222,7 +223,7 @@ app.post('/register', async (req, res) => {
           text: `Welcome to the Company Rota Management System. Click the link to activate your account: ${activationLink} to proceed with login`,
       });
 
-      // Insert the new user without logging them in
+
       let tableName = role === "hr" ? "hr": role === "manager" ? "manager" : "staff";
       const name = firstName + " " + lastName;
 
@@ -230,14 +231,14 @@ app.post('/register', async (req, res) => {
           `INSERT INTO ${tableName} (name, email, password, role, address, state, zipcode, city, isVerified) 
           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
           RETURNING *`,
-          [name, email, hashedPassword, role, address, state, zipcode, city, false] // Set isVerified to false
+          [name, email, hashedPassword, role, address, state, zipcode, city, false] 
       );
 
       if (!insertResult.rows[0]) {
           return res.status(500).json({ message: `Failed to create ${role}.` });
       }
 
-      // Respond to the client that the activation link has been sent
+
       return res.json({
           message: 'Registration successful. Please check your email to activate your account.',
       });
@@ -249,7 +250,7 @@ app.post('/register', async (req, res) => {
 });
 
 
-// Activation endpoint
+
 app.get('/activate/:token', async (req, res) => {
   const { token } = req.params;
 
@@ -274,7 +275,7 @@ app.get('/activate/:token', async (req, res) => {
       return res.status(400).json({ message: 'Invalid activation link' });
     }
 
-    // Update the user's verification status in the corresponding table
+
     const updateResult = await pool.query(
       `UPDATE ${user.table} SET isVerified = $1 WHERE email = $2`,
       [true, decoded.email]
@@ -427,13 +428,13 @@ app.post('/logout', (req, res) => {
       return res.status(500).json({ error: "Failed to log out" });
     }
     
-    // Destroy the session after logout
+
     req.session.destroy((destroyErr) => {
       if (destroyErr) {
         console.error("Session destruction error:", destroyErr);
         return res.status(500).json({ error: "Failed to destroy session" });
       }
-      res.clearCookie('connect.sid'); // Clear the cookie if using default session cookie
+      res.clearCookie('connect.sid');
       res.json({ message: "Logout successful" });
     });
   });

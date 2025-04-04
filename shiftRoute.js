@@ -24,15 +24,14 @@ router.get('/', async (req, res) => {
   router.post('/addShift', async (req, res) => {
     try {
       const { staffname, shiftDate, shiftStart, shiftEnd } = req.body;
-  
-      // Input validation
+
       if (!staffname || !shiftDate || !shiftStart || !shiftEnd) {
         return res.status(400).json({ message: 'Please enter all fields' });
       }
   
   
   
-      // Get staff ID
+ 
       const staffResult = await pool.query(
         'SELECT id FROM staff WHERE name = $1',
         [staffname]
@@ -47,14 +46,14 @@ router.get('/', async (req, res) => {
   
   
   
-      // Insert the shift
+
       const newShift = await pool.query(
         'INSERT INTO shifts (staff_id, date, start_time, end_time) VALUES ($1, $2, $3, $4) RETURNING id',
         [staffId, shiftDate, shiftStart, shiftEnd]
       );
   
   
-      // Check if the new shift was inserted successfully
+
       if (newShift.rows.length === 0) {
         return res.status(500).json({ message: 'Failed to insert shift' });
       }
@@ -82,14 +81,14 @@ router.get('/', async (req, res) => {
   
     console.log("Received date:", date);
   
-    // Validate the date format
+
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
       console.error("Invalid date format:", date);
       return res.status(400).send("Invalid date format. Use YYYY-MM-DD.");
     }
   
     try {
-      // Fetch shifts from the database
+ 
       const result = await pool.query(`SELECT s.id, s.staff_id AS staffId,
          s.date AS date ,s.start_time AS shiftstart, s.end_time AS shiftend,
           st.name AS staffname, mr.position AS position
@@ -133,7 +132,7 @@ router.get('/', async (req, res) => {
         return res.status(400).json({ message: 'Invalid shift ID format' });
       }
   
-      // Perform the deletio
+  
       const result = await pool.query('DELETE FROM shifts WHERE id = $1', [id]);
   
   
