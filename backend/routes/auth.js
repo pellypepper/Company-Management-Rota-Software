@@ -68,7 +68,7 @@ router.post('/register', async (req, res) => {
     
           console.log("Received registration data:", req.body);
           const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-          const activationLink = `${process.env.REACT_APP_API_URL}/activate/${token}`;
+          const activationLink = `${process.env.REACT_APP_API_URL}/auth/activate/${token}`;
         
     
           await sendActivationEmail(email, activationLink);
@@ -185,4 +185,4 @@ router.get('/activate/:token', async (req, res) => {
       });
       
 
-      module.exports = router;
+module.exports = router;
