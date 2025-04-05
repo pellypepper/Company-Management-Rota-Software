@@ -66,7 +66,7 @@ router.post('/register', async (req, res) => {
           const salt = await bcrypt.genSalt(10);
           const hashedPassword = await bcrypt.hash(password, salt);
     
-          console.log("Received registration data:", req.body);
+
           const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
           const activationLink = `${process.env.REACT_APP_API_URL}/auth/activate/${token}`;
         
@@ -182,6 +182,25 @@ router.get('/activate/:token', async (req, res) => {
         
           res.status(400).json({ message: 'Invalid or expired activation link' });
         }
+      });
+
+      router.post('/logout', (req, res) => {
+        req.logout((err) => {
+          if (err) {
+            console.error("Logout error:", err);
+            return res.status(500).json({ error: "Failed to log out" });
+          }
+          
+      
+          req.session.destroy((destroyErr) => {
+            if (destroyErr) {
+              console.error("Session destruction error:", destroyErr);
+              return res.status(500).json({ error: "Failed to destroy session" });
+            }
+            res.clearCookie('connect.sid');
+            res.json({ message: "Logout successful" });
+          });
+        });
       });
       
 

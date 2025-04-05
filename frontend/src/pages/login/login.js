@@ -41,9 +41,13 @@ export default function LoginPage() {
 
         const user = { email, password, role };
         setLoading(true);
-
+        console.log("Email:", user);
+        console.log(process.env.REACT_APP_API_URL);
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:10000';
+        console.log("API URL:", apiUrl);
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, user, { withCredentials: true });
+            const response = await axios.post(`${apiUrl}/auth/login`, user, { withCredentials: true });
+            console.log(response.data);
             if (response.data.redirect) {
                 sessionStorage.setItem("user", JSON.stringify(response.data.user));
                 navigate(response.data.redirect, { state: { user: response.data.user } });
@@ -51,7 +55,7 @@ export default function LoginPage() {
                 alert("Login successful, but no redirect specified.");
             }
         } catch (error) {
-            console.error("Login error:", error);
+
             alert(error.response?.data?.message || "Login failed. Please try again.");
         } finally {
             setLoading(false);

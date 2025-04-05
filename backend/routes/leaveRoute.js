@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
                 staff ON leave.staff_id = staff.id
         `);
   
-      // Send the result as JSON
+ 
       res.json(allleave.rows);
     } catch (error) {
   
@@ -37,12 +37,12 @@ router.get('/', async (req, res) => {
     const status = 'pending';
   
     try {
-      // Validate request body
+
       if (!leavestart || !leaveend || !days_req) {
         return res.status(400).json({ message: 'All fields are required: leavestart, leaveend, days_req.' });
       }
   
-      // Fetch the total leave for the staff member
+
       const totalLeaveResult = await pool.query('SELECT totalleave FROM leave WHERE staff_id = $1', [staff_id]);
   
      
@@ -94,7 +94,7 @@ router.get('/', async (req, res) => {
   
   
     try {
-      // Fetch leave requests for the staff member
+
       const staffLeave = await pool.query('SELECT * FROM leave WHERE staff_id = $1', [staffId]);
   
     
@@ -116,13 +116,14 @@ router.get('/', async (req, res) => {
     
   
     try {
-      // Update the leave status to 'approved'
+
+    
       const result = await pool.query('UPDATE leave SET status = $1 WHERE id = $2 RETURNING *',
         ["approved", leaveId]);
   
       
   
-      // Check if any rows were updated
+ 
       if (result.rows.length === 0) {
         return res.status(404).json({ message: 'Leave request not found' });
       }
@@ -142,7 +143,7 @@ router.get('/', async (req, res) => {
     const leaveId = req.params.id;
    
     try {
-      // Update the leave status to 'approved'
+
       const result = await pool.query('UPDATE leave SET status = $1 WHERE id = $2 RETURNING *',
         ["declined", leaveId]);
   

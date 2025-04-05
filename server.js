@@ -51,8 +51,19 @@ app.use(
 );
 
 app.use(cors({
-  origin: 'https://companyrotasoftware-3f6dcaa37799.herokuapp.com',
-  credentials: true
+  origin: function (origin, callback) {
+      const allowedOrigins = [
+          'http://localhost:3000', 
+          'https://localhost:3000', 
+          'https://companyrotasoftware-3f6dcaa37799.herokuapp.com'
+      ];
+      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+          callback(null, true);
+      } else {
+          callback(new Error('Not allowed by CORS'));
+      }
+  },
+  credentials: true  // This allows cookies to be sent with the request
 }));
 
 
@@ -81,24 +92,7 @@ app.get("/hrdash", isAuthenticated, checkRole(['hr']), (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend/build', 'hrdash.html'));
 });
 
-app.post('/logout', (req, res) => {
-  req.logout((err) => {
-    if (err) {
-      console.error("Logout error:", err);
-      return res.status(500).json({ error: "Failed to log out" });
-    }
-    
 
-    req.session.destroy((destroyErr) => {
-      if (destroyErr) {
-        console.error("Session destruction error:", destroyErr);
-        return res.status(500).json({ error: "Failed to destroy session" });
-      }
-      res.clearCookie('connect.sid');
-      res.json({ message: "Logout successful" });
-    });
-  });
-});
 
 
 

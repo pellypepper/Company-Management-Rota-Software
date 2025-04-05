@@ -107,7 +107,7 @@ export default function RegisterPage() {
 
         const { password, confirmPassword, ...userDetails } = formData;
         const newUser = { ...userDetails, password };
-
+        console.log(process.env.REACT_APP_API_URL);
         try {
             setLoading(true);
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, newUser, { 

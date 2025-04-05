@@ -52,7 +52,7 @@ router.post('/addrole', async (req, res) => {
             return res.status(500).json({ message: 'Internal server error' });
         }
     } catch (error) {
-        console.error('Error adding role:', error);
+     
         return res.status(500).json({ message: 'Internal server error' });
     }
   });
