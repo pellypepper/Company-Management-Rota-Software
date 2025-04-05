@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Main from './pages/main/main';
 import Loginpage from './pages/login/login';
 import Registerpage from './pages/register/register';
-import Dashboard from './pages/Dashboard';
+
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import StaffDashboard from './pages/dashboard/staffdash/staffdash';
 import Rota from './pages/dashboard/staffdash/rota';
