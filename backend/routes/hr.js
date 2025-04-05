@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db'); 
 
-app.post('/addrole', async (req, res) => {
+router.post('/addrole', async (req, res) => {
     const { position, role, pay, name } = req.body;
   
      
