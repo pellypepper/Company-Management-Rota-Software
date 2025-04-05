@@ -127,7 +127,7 @@ export default function RegisterPage() {
                 setError("Invalid redirect URL. Please contact support.");
             }
         } catch (error) {
-            console.error("Registration error:", error);
+ 
             setError(error.response?.data?.message || "Registration failed. Please try again.");
         } finally {
             setLoading(false);

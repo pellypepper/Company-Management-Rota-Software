@@ -41,10 +41,9 @@ export default function LoginPage() {
 
         const user = { email, password, role };
         setLoading(true);
-        console.log("Email:", user);
-        console.log(process.env.REACT_APP_API_URL);
+
         const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:10000';
-        console.log("API URL:", apiUrl);
+
         try {
             const response = await axios.post(`${apiUrl}/auth/login`, user, { withCredentials: true });
             console.log(response.data);
