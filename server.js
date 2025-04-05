@@ -63,7 +63,7 @@ app.use(cors({
           callback(new Error('Not allowed by CORS'));
       }
   },
-  credentials: true  // This allows cookies to be sent with the request
+  credentials: true 
 }));
 
 

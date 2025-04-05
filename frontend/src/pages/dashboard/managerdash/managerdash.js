@@ -43,7 +43,7 @@ useEffect(() => {
     
         } catch (error) {
             setError(error.message);
-            console.error("Failed to fetch staff data:", error);
+         
         } finally {
             setIsLoading(false);
         }
@@ -60,7 +60,7 @@ const fetchShifts = async () => {
   
   } catch (error) {
       setError(error.message);
-      console.error("Failed to fetch shift data:", error);
+  
   } finally {
       setIsLoading(false);
   }
@@ -179,7 +179,7 @@ const handleAddShift = async () => {
       
       }
     } catch (error) {
-      console.error("Error adding shift:", error);
+    
       alert("Failed to add shift.");
     } finally {
       setIsLoading(false);
@@ -237,7 +237,7 @@ const handleDeleteShift = async (id) => {
             alert("Failed to approve leave.");
         }
     } catch (error) {
-        console.error("Error approving leave:", error);
+     
         alert("An error occurred while trying to approve the leave.");
     }
 };
@@ -248,7 +248,7 @@ const handleDeleteShift = async (id) => {
    
     const request = leaveRequests.find((req) => req.id === id);
     if (!request) {
-        console.error("Leave request not found.");
+   
         return;
     }
    
@@ -272,7 +272,7 @@ const handleDeleteShift = async (id) => {
             alert("Failed to decline leave.");
         }
     } catch (error) {
-        console.error("Error declining leave:", error);
+
         alert("An error occurred while trying to decline the leave.");
     }
 };
@@ -290,7 +290,7 @@ const handleDeleteLeave = async (id) => {
           alert("Failed to delete leave request.");
       }
   } catch (error) {
-      console.error("Error deleting leave request:", error);
+ 
       alert("Failed to delete leave request.");
   }
 }
