@@ -46,7 +46,7 @@ export default function LoginPage() {
 
         try {
             const response = await axios.post(`${apiUrl}/auth/login`, user, { withCredentials: true });
-            console.log(response.data);
+    
             if (response.data.redirect) {
                 sessionStorage.setItem("user", JSON.stringify(response.data.user));
                 navigate(response.data.redirect, { state: { user: response.data.user } });
