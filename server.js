@@ -52,7 +52,7 @@ app.use(
 app.use(cors({
   origin: process.env.REACT_APP_API_URL,
   credentials: true }));
-
+console.log(process.env.REACT_APP_API_URL);
 
 initializePassport(passport);
 
