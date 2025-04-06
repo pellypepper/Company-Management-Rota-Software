@@ -50,9 +50,9 @@ app.use(
 );
 
 app.use(cors({
-  origin: process.env.REACT_APP_API_URL,
+  origin: 'https://companyrotasoftware-3f6dcaa37799.herokuapp.com',
   credentials: true }));
-console.log(process.env.REACT_APP_API_URL);
+
 
 initializePassport(passport);
 
