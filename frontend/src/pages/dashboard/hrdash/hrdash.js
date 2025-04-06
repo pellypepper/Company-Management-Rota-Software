@@ -18,17 +18,13 @@ const HrDashboard = () => {
     const [allManager, setAllManager] = useState([]);
     const [activeSection, setActiveSection] = useState('dashboard');
     const navigate = useNavigate();
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:10000";
 
-    useEffect(() => {
-        fetchStaff();
-        fetchManager();
-        fetchAllStaff();
-        fetchAllManager();
-    }, []);
+
 
     const fetchStaff = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/staff`, {
+            const response = await fetch(`${apiUrl}/staff`, {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -42,7 +38,7 @@ const HrDashboard = () => {
 
     const fetchAllStaff = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/staff/all`, {
+            const response = await fetch(`${apiUrl}/staff/all`, {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -56,7 +52,7 @@ const HrDashboard = () => {
 
     const fetchAllManager = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/manager/info`, {
+            const response = await fetch(`${apiUrl}/manager/info`, {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -71,7 +67,7 @@ const HrDashboard = () => {
 
     const fetchManager = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/manager`, {
+            const response = await fetch(`${apiUrl}/manager`, {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -82,6 +78,12 @@ const HrDashboard = () => {
             console.error('Fetch error:', err);
         }
     };
+    useEffect(() => {
+        fetchStaff();
+        fetchManager();
+        fetchAllStaff();
+        fetchAllManager();
+    }, []);
 
     const handleAssignRole = async () => {
         const name = role === 'staff' ? selectedStaff : selectedManager;
@@ -92,7 +94,7 @@ const HrDashboard = () => {
         }
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/hr/addrole`, {
+            const response = await axios.post(`${apiUrl}/hr/addrole`, {
                 name,
                 position,
                 role,
@@ -111,7 +113,7 @@ const HrDashboard = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/logout`, {}, { withCredentials: true });
+            const response = await axios.post(`${apiUrl}/auth/logout`, {}, { withCredentials: true });
             if (response.status === 200) {
                 navigate("/");
             } else {
