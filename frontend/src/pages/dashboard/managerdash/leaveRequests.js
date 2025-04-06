@@ -1,4 +1,4 @@
-// src/components/LeaveRequests.js
+
 import React from 'react';
 
 const LeaveRequests = ({ leaveRequests, handleApproveLeave, handleDeclineLeave, handleDeleteLeave }) => (

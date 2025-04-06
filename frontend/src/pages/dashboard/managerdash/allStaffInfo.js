@@ -1,4 +1,4 @@
-// src/components/AllStaffInfo.js
+
 import React from 'react';
 
 const AllStaffInfo = ({ staffDetails }) => (
