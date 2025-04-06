@@ -31,7 +31,7 @@ const ManagerDashboard = () => {
   const navigate = useNavigate();
 
   
-  const apiUrl = process.env.REACT_APP_API_URL || "https://localhost:10000";
+  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:10000";
 
   useEffect(() => {
     const fetchData = async () => {
