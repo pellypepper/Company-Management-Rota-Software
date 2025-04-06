@@ -1,4 +1,4 @@
-
+// src/components/StaffShifts.js
 import React from 'react';
 
 const StaffShifts = ({ shifts, handleDeleteShift }) => (

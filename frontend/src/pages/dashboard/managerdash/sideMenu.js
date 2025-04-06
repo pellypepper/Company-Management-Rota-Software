@@ -1,4 +1,4 @@
-
+// src/components/SideMenu.js
 import React from 'react';
 
 const SideMenu = ({ setActiveSection, handleLogout }) => (
