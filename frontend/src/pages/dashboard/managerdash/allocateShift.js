@@ -1,4 +1,4 @@
-// src/components/AllocateShift.js
+
 import React from 'react';
 
 const AllocateShift = ({ newShift, setNewShift, handleAddShift, staffDatas }) => (

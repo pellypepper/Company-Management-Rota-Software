@@ -1,4 +1,4 @@
-// src/components/SummaryCards.js
+
 import React from 'react';
 
 const SummaryCards = ({ staffCount, shiftCount, totalRemainingLeave }) => (

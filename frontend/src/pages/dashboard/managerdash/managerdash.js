@@ -1,4 +1,4 @@
-// src/pages/ManagerDashboard.js
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -120,6 +120,8 @@ const ManagerDashboard = () => {
         }
       } catch (error) {
         alert("Failed to add shift.");
+
+      
       } finally {
         setIsLoading(false);
       }
@@ -135,14 +137,14 @@ const ManagerDashboard = () => {
         
       
         if (response.status === 200) {
-            console.log("Shift deleted:", response.data);
+
           
             setShifts(prevShifts => prevShifts.filter(shift => shift.id !== id));
         } else {
             alert("Failed to delete shift.");
         }
     } catch (error) {
-        console.error("Error deleting shift:", error);
+
         alert("Failed to delete shift.");
     }
   };
@@ -265,6 +267,8 @@ const ManagerDashboard = () => {
           {activeSection === 'allStaffInfo' && <AllStaffInfo staffDetails={staffDetails} handleDeleteShift={handleDeleteShift} />}
           {activeSection === 'managerDetails' && <ManagerDetails user={user} />}
         </div>
+        {error && <div className="error-message">{error}</div>}
+
       </div>
     </main>
   );

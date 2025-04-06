@@ -1,4 +1,4 @@
-// src/components/ManagerDetails.js
+
 import React from 'react';
 
 const ManagerDetails = ({ user }) => (
