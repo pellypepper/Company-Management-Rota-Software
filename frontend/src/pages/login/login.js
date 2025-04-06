@@ -12,7 +12,8 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [submitting, setSubmitting] = useState(true)
     const navigate = useNavigate();
-    const apiUrl = process.env.REACT_APP_API_URL || "https://companyrotasoftware-3f6dcaa37799.herokuapp.com";
+ 
+    const apiUrl = process.env.REACT_APP_API_URL || "https://localhost:10000";
 
     useEffect(() => {
       
@@ -47,7 +48,9 @@ export default function LoginPage() {
 
         try {
         
-            const response = await axios.post(`${apiUrl}/auth/login`, user, { withCredentials: true });
+            const response = await axios.post(`${apiUrl}/auth/login`, user, { withCredentials: true,  headers: {
+                'Content-Type': 'application/json'
+              } });
     
             if (response.data.redirect) {
                 sessionStorage.setItem("user", JSON.stringify(response.data.user));

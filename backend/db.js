@@ -8,10 +8,11 @@ const connectionString = process.env.DATABASE_URL;
 
 const pool = new Pool({
   connectionString: connectionString,
-  rejectUnauthorized: false 
-}
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 
-);
 
 pool.connect()
   .then(() => console.log('Connected to PostgreSQL'))
