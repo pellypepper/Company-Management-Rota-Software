@@ -6,7 +6,7 @@ export default function Maindash() {
     const { user } = useOutletContext();
     const [nextShift, setNextShift] = useState(null);
     const [error, setError] = useState(null);
-
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:10000";
     const getDate = () => {
         return new Date().toDateString();
     };
@@ -14,7 +14,7 @@ export default function Maindash() {
     useEffect(() => {
         const fetchNextShift = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/staff/${user.id}/next-shift`, {
+                const response = await fetch(`${apiUrl}/staff/${user.id}/next-shift`, {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -31,7 +31,7 @@ export default function Maindash() {
         };
 
         fetchNextShift();
-    }, [user.id]);
+    }, [user.id, apiUrl]);
 
     return (
         <main className="board-wrapper">

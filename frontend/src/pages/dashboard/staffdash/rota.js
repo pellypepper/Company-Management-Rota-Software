@@ -5,10 +5,11 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 const Rota = () => {
   const [currentDate, setCurrentDate] = useState("2024-12-18");
   const [staffData, setStaffData] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:10000";
 
   const fetchStaffData = async (date) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/shifts/date/${date}`);
+      const response = await fetch(`${apiUrl}/shifts/date/${date}`);
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }

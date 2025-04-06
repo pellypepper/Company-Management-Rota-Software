@@ -13,7 +13,7 @@ export default function StaffDashboard() {
         const loadedUser = JSON.parse(sessionStorage.getItem("user")) || {};
         setUser(loadedUser);
     }, []);
-
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:10000";
     
     const fetchStaffShifts = useCallback(async () => {
         if (!user.id) return;
@@ -24,7 +24,7 @@ export default function StaffDashboard() {
 
         try {
             
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/shifts/staff/${user.id}`, {
+            const response = await fetch(`${apiUrl}/shifts/staff/${user.id}`, {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -49,7 +49,7 @@ export default function StaffDashboard() {
         } finally {
             setLoading(false);
         }
-    }, [user.id]); 
+    }, [user.id, apiUrl]); 
 
 
 

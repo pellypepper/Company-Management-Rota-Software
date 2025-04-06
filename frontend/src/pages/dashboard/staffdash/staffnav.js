@@ -19,7 +19,7 @@ export default function StaffDashboard() {
     const [submitting, setSubmitting] = useState(true)
 
 
-
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:10000";
  
     useEffect(() => {
       
@@ -39,7 +39,7 @@ export default function StaffDashboard() {
     const handleLogout = async () => {
         try {
             setLoading(true);
-          const response = await axios.post(`${process.env.REACT_APP_API_URL}/logout`, {}, { withCredentials: true });
+          const response = await axios.post(`${apiUrl}/auth/logout`, {}, { withCredentials: true });
       
           if (response.status === 200) {
             navigate("/"); 

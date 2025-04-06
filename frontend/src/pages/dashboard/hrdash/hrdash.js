@@ -22,67 +22,40 @@ const HrDashboard = () => {
 
 
 
-    const fetchStaff = async () => {
+      const fetchData = async () => {
         try {
-            const response = await fetch(`${apiUrl}/staff`, {
-                method: 'GET',
-                credentials: 'include',
-            });
-            if (!response.ok) throw new Error('Network response was not ok');
-            const data = await response.json();
-            setStaff(data || []);
+
+            const [staffResponse, allStaffResponse, managerResponse, allManagerResponse] = await Promise.all([
+                fetch(`${apiUrl}/staff`, { method: 'GET', credentials: 'include' }),
+                fetch(`${apiUrl}/staff/all`, { method: 'GET', credentials: 'include' }),
+                fetch(`${apiUrl}/manager`, { method: 'GET', credentials: 'include' }),
+                fetch(`${apiUrl}/manager/info`, { method: 'GET', credentials: 'include' }),
+            ]);
+
+            // Check for response status and update state accordingly
+            if (!staffResponse.ok || !allStaffResponse.ok || !managerResponse.ok || !allManagerResponse.ok) {
+                throw new Error('One or more network responses were not ok');
+            }
+
+            const staffData = await staffResponse.json();
+            const allStaffData = await allStaffResponse.json();
+            const managerData = await managerResponse.json();
+            const allManagerData = await allManagerResponse.json();
+
+            setStaff(staffData || []);
+            setAllStaff(allStaffData || []);
+            setManagers(managerData || []);
+            setAllManager(allManagerData || []);
         } catch (err) {
             console.error('Fetch error:', err);
+
+        } finally {
+          return 'Data unable to fetch ';
         }
     };
 
-    const fetchAllStaff = async () => {
-        try {
-            const response = await fetch(`${apiUrl}/staff/all`, {
-                method: 'GET',
-                credentials: 'include',
-            });
-            if (!response.ok) throw new Error('Network response was not ok');
-            const data = await response.json();
-            setAllStaff(data || []);
-        } catch (err) {
-            console.error('Fetch error:', err);
-        }
-    };
-
-    const fetchAllManager = async () => {
-        try {
-            const response = await fetch(`${apiUrl}/manager/info`, {
-                method: 'GET',
-                credentials: 'include',
-            });
-     
-            if (!response.ok) throw new Error('Network response was not ok');
-            const data = await response.json();
-            setAllManager(data || []);
-        } catch (err) {
-            console.error('Fetch error:', err);
-        }
-    };
-
-    const fetchManager = async () => {
-        try {
-            const response = await fetch(`${apiUrl}/manager`, {
-                method: 'GET',
-                credentials: 'include',
-            });
-            if (!response.ok) throw new Error('Network response was not ok');
-            const data = await response.json();
-            setManagers(data || []);
-        } catch (err) {
-            console.error('Fetch error:', err);
-        }
-    };
     useEffect(() => {
-        fetchStaff();
-        fetchManager();
-        fetchAllStaff();
-        fetchAllManager();
+        fetchData();
     }, []);
 
     const handleAssignRole = async () => {
@@ -186,8 +159,8 @@ const HrDashboard = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {allManager.map((manager) => (
-                            <tr key={manager.id}>
+                        {allManager.map((manager, index) => (
+                            <tr key={manager.id || index}>
                                 <td>{manager.name}</td>
                                 <td>{manager.email}</td>
                                 <td>{manager.address}</td>
