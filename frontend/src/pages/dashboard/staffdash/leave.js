@@ -25,7 +25,7 @@ const Leave = () => {
   useEffect(() => {
     const fetchLeaveData = async () => {
       try {
-        const response = await fetch(`${apiUrl}leave/staff/${user.id}`);
+        const response = await fetch(`${apiUrl}/leave/staff/${user.id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
