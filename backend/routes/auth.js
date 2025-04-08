@@ -105,7 +105,7 @@ router.get('/activate/:token', async (req, res) => {
       
         try {
           const decoded = jwt.verify(token, process.env.JWT_SECRET);
-          console.log('Decoded token:', decoded); 
+        
       
       
           const tables = ['manager', 'staff', 'hr'];
