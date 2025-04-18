@@ -44,7 +44,7 @@ const login =  (req, res, next) => {
   }
 
 
-  // Register user
+  // Register staff/manager/hr
   const register =  async (req, res) => {
     const { firstName, lastName, email, password, role, address, state, zipcode, city } = req.body;
   
