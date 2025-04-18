@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getStaff, getTimeSheet, allInfo } = require('../controller/staffController');
+const { getStaff, getTimeSheet, nextShift, allInfo } = require('../controller/staffController');
 
 
   
