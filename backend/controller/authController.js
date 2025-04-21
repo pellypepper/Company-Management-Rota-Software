@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const pool = require('../db');
 const { sendActivationEmail } = require('../email');
-
+const passport = require('passport');
 
 // Login user
 const login =  (req, res, next) => {
