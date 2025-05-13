@@ -1,28 +1,118 @@
-Company Rota System
-Project Description
-The Company Rota System is a web application designed to streamline employee management for organizations. This system enables Hr  to assign roles and salaries to staff members, and also allow Managers to manage shifts, approve leave requests, and view detailed staff information. Staff members can check their upcoming shifts, access a calendar displaying their shifts for each day, view  fellow colleague working together on shift same day, and submit requests for annual leave.
-This application is built using Express.js for the backend, PostgreSQL for the database, Bootstrap and React for the frontend, ensuring a robust and responsive user experience. The project aims to enhance efficiency in workforce management, reduce administrative overhead, and improve communication within teams.
+# 🏢 Company Rota System
 
-Features
-* Role Management: Assign roles (e.g., staff, manager, HR) and set pay rates for each employee.
-* Shift Management: Managers can assign shifts to employees and view all staff shift schedules.
-* Leave Management: Managers can approve or reject leave requests submitted by staff.
-* Staff Information: View comprehensive information about all staff members.
-* Staff Access: Staff can view their upcoming shifts and shift history.
-* Calendar Integration: Display shifts in a calendar format for better visibility.
-* Annual Leave Requests: Staff can submit requests for annual leave, which managers can then approve or deny.
+A web-based rota and employee management application designed to streamline workforce scheduling, leave tracking, and staff role management.
 
-Technologies Used
-* Frontend: React Bootstrap
-* Backend: Express.js
-* Database: PostgreSQL
-* Authentication: Passport.js (for user authentication)
-* Session Management: Express-session and pg-session for PostgreSQL session storage
+---
+
+## 📖 Project Description
+
+The **Company Rota System** is a workforce management solution tailored for organizations to efficiently assign roles, schedule shifts, and handle leave requests. It supports three roles:
+
+- 👥 **HR** – Assign staff roles and salaries, view all personnel.
+- 🧑‍💼 **Managers** – Manage shifts, approve/deny leave requests, and monitor staff.
+- 👤 **Staff** – View shift schedules, colleagues on duty, and request annual leave.
+
+> Built using **Express.js**, **React**, and **PostgreSQL** for a full-stack, responsive experience.
+
+--- Live Demo : https://companyrotasoftware-3f6dcaa37799.herokuapp.com
+
+## 🚀 Features
+
+- ✅ **Role Management** – Assign roles like `staff`, `manager`, `HR` and set pay rates.
+- 📅 **Shift Management** – Managers can assign and view team schedules.
+- 📬 **Leave Management** – Managers approve/reject leave requests.
+- 🔍 **Staff Directory** – View detailed profiles of all staff members.
+- 📆 **Calendar Integration** – Shifts visualized in a user-friendly calendar.
+- ⏱️ **Upcoming Shifts** – Staff can view future shifts and shift history.
+- 📝 **Annual Leave Requests** – Staff can request leave with a simple form.
+- 👥 **Colleague View** – Staff can see which colleagues are on shift together.
+
+---
+
+## 🧰 Technologies Used
+
+| Category         | Stack                          |
+|------------------|--------------------------------|
+| **Frontend**     | React, Bootstrap               |
+| **Backend**      | Express.js                     |
+| **Database**     | PostgreSQL                     |
+| **Authentication** | Passport.js (Local Strategy)  |
+| **Session Management** | express-session + pg-session |
+
+---
+
+## 🧪 Usage Instructions
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/company-rota-system.git
+cd company-rota-system
+2. Set Up Environment Variables
+Create a .env file and define:
+
+ini
+Copy
+Edit
+DATABASE_URL=your_postgres_url
+SESSION_SECRET=your_secret
+EMAIL_API_KEY=your_email_key_if_applicable
+3. Install Dependencies
+bash
+Copy
+Edit
+npm install
+4. Start the Application
+bash
+Copy
+Edit
+npm run dev
+Make sure PostgreSQL is running and migrations (if any) are set.
+
+👨‍💼 User Roles & Access
+👤 Staff
+View upcoming shifts
+
+See colleagues scheduled on the same shift
+
+Submit annual leave requests
+
+🧑‍💼 Managers
+Assign shifts to staff
+
+View full team schedule
+
+Approve/deny leave requests
+
+View staff directory
+
+🧑‍💼 HR
+Add new staff
+
+Assign roles and pay
+
+Access full system overview
+
+🔒 Authentication Flow
+Secure login using Passport.js
+
+Sessions stored in PostgreSQL via pg-session
+
+Email verification (activation link) upon registration
+
+📬 Activation & Login
+Register with your credentials
+
+Receive an activation link via email
+
+Verify your account
+
+Log in to access your dashboard
 
 
-Usage
-Navigate to the register page and enter your credentials to access the system.
-you will get an activation link to verify, verify and login wit your credentials
-Hr can assign roles, pay , view all staff and manager details
-Managers can  manage shifts,view all staff details and approve leave requests.
-Staff can view their next shifts and submit leave requests.
+
+© 2025 Company Rota System – Designed for smarter workforce management.
+
+yaml
+Copy
+Edit
