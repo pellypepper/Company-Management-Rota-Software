@@ -13,7 +13,7 @@ export default function StaffDashboard() {
         const loadedUser = JSON.parse(sessionStorage.getItem("user")) || {};
         setUser(loadedUser);
     }, []);
-    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:10000";
+        const apiUrl = process.env.REACT_APP_API_URL || "https://company-management-rota-software.fly.dev/";
     
     const fetchStaffShifts = useCallback(async () => {
         if (!user.id) return;

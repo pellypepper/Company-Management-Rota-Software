@@ -32,7 +32,8 @@ export default function RegisterPage() {
     const [agreed, setAgreed] = useState(false);
   
 
-    
+        const apiUrl = process.env.REACT_APP_API_URL ||  "https://company-management-rota-software.fly.dev/";
+
     useEffect(() => {
       
         
@@ -110,7 +111,7 @@ export default function RegisterPage() {
         console.log(process.env.REACT_APP_API_URL);
         try {
             setLoading(true);
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, newUser, { 
+            const response = await axios.post(`${apiUrl}/auth/register`, newUser, { 
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json'

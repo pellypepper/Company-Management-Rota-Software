@@ -5,7 +5,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 const Rota = () => {
   const [currentDate, setCurrentDate] = useState("2024-12-18");
   const [staffData, setStaffData] = useState([]);
-  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:10000";
+      const apiUrl = process.env.REACT_APP_API_URL || "https://company-management-rota-software.fly.dev/";
 
   const fetchStaffData = async (date) => {
     try {
