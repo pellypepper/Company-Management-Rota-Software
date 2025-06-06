@@ -12,7 +12,7 @@ const Leave = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [totalLeave , setTotalLeave] = useState(0);
 
-      const apiUrl = process.env.REACT_APP_API_URL || "https://company-management-rota-software.fly.dev/";
+      const apiUrl = process.env.REACT_APP_API_URL || "https://company-management-rota-software.fly.dev";
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);

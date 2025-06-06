@@ -6,7 +6,7 @@ export default function Maindash() {
     const { user } = useOutletContext();
     const [nextShift, setNextShift] = useState(null);
     const [error, setError] = useState(null);
-         const apiUrl = process.env.REACT_APP_API_URL || "https://company-management-rota-software.fly.dev/";
+         const apiUrl = process.env.REACT_APP_API_URL || "https://company-management-rota-software.fly.dev";
     const getDate = () => {
         return new Date().toDateString();
     };

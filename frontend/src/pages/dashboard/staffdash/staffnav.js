@@ -18,7 +18,7 @@ export default function StaffDashboard() {
     const [loading, setLoading] = React.useState(false);
     const [submitting, setSubmitting] = useState(true)
 
-      const apiUrl = process.env.REACT_APP_API_URL || "https://company-management-rota-software.fly.dev/";
+      const apiUrl = process.env.REACT_APP_API_URL || "https://company-management-rota-software.fly.dev";
  
     useEffect(() => {
       

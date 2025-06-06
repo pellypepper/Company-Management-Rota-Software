@@ -31,7 +31,7 @@ const ManagerDashboard = () => {
   const navigate = useNavigate();
 
   
-      const apiUrl = process.env.REACT_APP_API_URL || "https://company-management-rota-software.fly.dev/";
+      const apiUrl = process.env.REACT_APP_API_URL || "https://company-management-rota-software.fly.dev";
 
   useEffect(() => {
     const fetchData = async () => {

@@ -32,7 +32,7 @@ export default function RegisterPage() {
     const [agreed, setAgreed] = useState(false);
   
 
-        const apiUrl = process.env.REACT_APP_API_URL ||  "https://company-management-rota-software.fly.dev/";
+        const apiUrl = process.env.REACT_APP_API_URL ||  "https://company-management-rota-software.fly.dev";
 
     useEffect(() => {
       
