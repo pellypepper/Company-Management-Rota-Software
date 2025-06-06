@@ -1,11 +1,8 @@
+const { login, register, activateToken, logout } = require('../controller/authController');
 
-const passport = require('passport');
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const pool = require('../db');
-const { sendActivationEmail } = require('../email');
+
 
 
 router.post('/login', (req, res, next) => {
@@ -105,7 +102,7 @@ router.get('/activate/:token', async (req, res) => {
       
         try {
           const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        
+          console.log('Decoded token:', decoded); 
       
       
           const tables = ['manager', 'staff', 'hr'];

@@ -36,7 +36,7 @@ const sessionStore = new pgSession({
 app.use(
   session({
     store: sessionStore,
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET|| "hfhfhff" ,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -51,7 +51,7 @@ app.use(
 
 app.use(cors({
   origin: [
-    'https://companyrotasoftware-3f6dcaa37799.herokuapp.com',
+    'https://company-management-rota-software.fly.dev',
     'http://localhost:3000'
   ],
   credentials: true

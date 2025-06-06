@@ -13,7 +13,7 @@ export default function LoginPage() {
     const [submitting, setSubmitting] = useState(true)
     const navigate = useNavigate();
  
-    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:10000";
+    const apiUrl = process.env.REACT_APP_API_URL ||  "https://company-management-rota-software.fly.dev";
 
     useEffect(() => {
       
