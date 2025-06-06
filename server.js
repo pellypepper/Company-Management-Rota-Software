@@ -51,7 +51,7 @@ app.use(
 
 app.use(cors({
   origin: [
-    'https://company-management-rota-software-mus9bw.fly.dev/',
+    'https://company-management-rota-software.fly.dev',
     'http://localhost:3000'
   ],
   credentials: true
