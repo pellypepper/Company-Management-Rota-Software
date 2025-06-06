@@ -45,58 +45,56 @@ const login =  (req, res, next) => {
 
 
   // Register staff/manager/hr
-  const register =  async (req, res) => {
-    const { firstName, lastName, email, password, role, address, state, zipcode, city } = req.body;
-  
-    try {
-  
+const register = async (req, res) => {
+  const { firstName, lastName, email, password, role, address, state, zipcode, city } = req.body;
 
-      const existingManager = await pool.query('SELECT * FROM manager WHERE email = $1', [email]);
-      const existingStaff = await pool.query('SELECT * FROM staff WHERE email = $1', [email]);
-      const existingHr = await pool.query('SELECT * FROM hr WHERE email = $1', [email]);
+  try {
+    console.log("Starting registration:", email);
+    console.log("REACT_APP_API_URL:", process.env.REACT_APP_API_URL);
 
+    const existingManager = await pool.query('SELECT * FROM manager WHERE email = $1', [email]);
+    const existingStaff = await pool.query('SELECT * FROM staff WHERE email = $1', [email]);
+    const existingHr = await pool.query('SELECT * FROM hr WHERE email = $1', [email]);
 
-      if (existingManager.rows.length > 0 || existingStaff.rows.length > 0 || existingHr.rows.length > 0) {
-          return res.status(401).json({ message: "User already exists." });
-      }
-
- 
-  
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-  
-
-        const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        const activationLink = `${process.env.REACT_APP_API_URL}/auth/activate/${token}`;
-      
-  
-        await sendActivationEmail(email, activationLink);
-  
-  
-        let tableName = role === "hr" ? "hr": role === "manager" ? "manager" : "staff";
-        const name = firstName + " " + lastName;
-  
-        const insertResult = await pool.query(
-            `INSERT INTO ${tableName} (name, email, password, role, address, state, zipcode, city, isVerified) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
-            RETURNING *`,
-            [name, email, hashedPassword, role, address, state, zipcode, city, false] 
-        );
-  
-        if (!insertResult.rows[0]) {
-            return res.status(500).json({ message: `Failed to create ${role}.` });
-        }
-  
-  
-        return res.json({
-            message: 'Registration successful. Please check your email to activate your account.',
-        });
-  
-    } catch (error) {
-    
-        return res.status(500).json({ message: "Internal server error." });
+    if (existingManager.rows.length > 0 || existingStaff.rows.length > 0 || existingHr.rows.length > 0) {
+      return res.status(401).json({ message: "User already exists." });
     }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const jwtSecret = process.env.JWT_SECRET || "47AcBmdiZ1eu7fJQh9WBQplcv5xKFEZ8";
+    const apiUrl = process.env.REACT_APP_API_URL || "https://https://company-management-rota-software.fly.dev"; // fallback for dev
+    const token = jwt.sign({ email }, jwtSecret , { expiresIn: '1h' });
+
+    const activationLink = `${apiUrl}/auth/activate/${token}`;
+    console.log("Activation link:", activationLink);
+
+    await sendActivationEmail(email, activationLink);
+
+    const tableName = role === "hr" ? "hr" : role === "manager" ? "manager" : "staff";
+    const name = `${firstName} ${lastName}`;
+
+    const insertResult = await pool.query(
+      `INSERT INTO ${tableName} (name, email, password, role, address, state, zipcode, city, isVerified) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+      [name, email, hashedPassword, role, address, state, zipcode, city, false]
+    );
+
+    if (!insertResult.rows[0]) {
+      return res.status(500).json({ message: `Failed to create ${role}.` });
+    }
+
+    return res.json({
+      message: 'Registration successful. Please check your email to activate your account.',
+    });
+
+  } catch (error) {
+    console.error("Registration failed:", error);
+    return res.status(500).json({ message: "Internal server error." });
   }
+};
+
 
 
   // Activate user account
@@ -105,7 +103,7 @@ const login =  (req, res, next) => {
   
   
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || "ggg");
       console.log('Decoded token:', decoded); 
   
   
