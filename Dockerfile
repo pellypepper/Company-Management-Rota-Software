@@ -1,39 +1,34 @@
-# syntax = docker/dockerfile:1
+# Step 1: Build frontend
+FROM node:20 AS frontend
+WORKDIR /app/frontend
+COPY frontend/package*.json ./
+RUN npm install
+COPY frontend/ .
+RUN npm run build
 
-# Adjust NODE_VERSION as desired
-ARG NODE_VERSION=20.18.0
-FROM node:${NODE_VERSION}-slim AS base
+# Step 2: Backend server
+FROM node:18
 
-LABEL fly_launch_runtime="Node.js"
-
-# Node.js app lives here
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV="production"
+# Copy backend code and root package.json
+COPY backend ./backend
+COPY package*.json ./
+COPY server.js ./
+RUN npm install
+
+# Copy frontend build to a public directory
+COPY --from=frontend /app/frontend/build ./public
+COPY database ./database
+
+# Dockerfile
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
 
 
-# Throw-away build stage to reduce size of final image
-FROM base AS build
+# Set PORT and expose
+ENV PORT=10000
+EXPOSE 10000
 
-# Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
-
-# Install node modules
-COPY package-lock.json package.json ./
-RUN npm ci
-
-# Copy application code
-COPY . .
-
-
-# Final stage for app image
-FROM base
-
-# Copy built application
-COPY --from=build /app /app
-
-# Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
-CMD [ "npm", "run", "start" ]
+# For debugging - list directory contents
+CMD ["sh", "-c", "ls -la && echo 'Current directory:' && pwd && node server.js"]
