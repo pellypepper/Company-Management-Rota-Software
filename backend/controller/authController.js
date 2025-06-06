@@ -103,7 +103,7 @@ const register = async (req, res) => {
   
   
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || "ggg");
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || "47AcBmdiZ1eu7fJQh9WBQplcv5xKFEZ8");
       console.log('Decoded token:', decoded); 
   
   
