@@ -19,7 +19,7 @@ RUN npm install
 
 # Copy frontend build to a public directory
 COPY --from=frontend /app/frontend/build ./public
-COPY database ./database
+COPY database ./backend/db
 
 # Dockerfile
 ARG REACT_APP_API_URL
