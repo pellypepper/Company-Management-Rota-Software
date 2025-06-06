@@ -19,7 +19,7 @@ RUN npm install
 
 # Copy frontend build to a public directory
 COPY --from=frontend /app/frontend/build ./public
-COPY backend/db ./backend/db
+
 
 
 # Dockerfile
