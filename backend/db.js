@@ -4,7 +4,7 @@ require('dotenv').config();
 
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL || "postgresql://postgres:HelpmeGod89@@db.qkuaihszliaeqjjxskpe.supabase.co:5432/postgres",
   ssl: {
     rejectUnauthorized: false
   }
