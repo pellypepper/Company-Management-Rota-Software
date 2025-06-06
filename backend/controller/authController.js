@@ -64,7 +64,7 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const jwtSecret = process.env.JWT_SECRET || "47AcBmdiZ1eu7fJQh9WBQplcv5xKFEZ8";
-    const apiUrl = process.env.REACT_APP_API_URL || "https://https://company-management-rota-software.fly.dev"; // fallback for dev
+    const apiUrl = process.env.REACT_APP_API_URL || "https://company-management-rota-software.fly.dev"; // fallback for dev
     const token = jwt.sign({ email }, jwtSecret , { expiresIn: '1h' });
 
     const activationLink = `${apiUrl}/auth/activate/${token}`;
