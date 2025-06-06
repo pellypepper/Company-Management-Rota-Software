@@ -28,8 +28,8 @@ ENV REACT_APP_API_URL=$REACT_APP_API_URL
 
 
 # Set PORT and expose
-ENV PORT=10000
-EXPOSE 10000
+ENV PORT=8080
+EXPOSE 8080
 
 # For debugging - list directory contents
 CMD ["sh", "-c", "ls -la && echo 'Current directory:' && pwd && node server.js"]
