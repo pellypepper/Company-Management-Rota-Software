@@ -17,8 +17,10 @@ COPY package*.json ./
 COPY server.js ./
 RUN npm install
 
-# Copy frontend build to a public directory
-COPY --from=frontend /app/frontend/build ./public
+
+# Copy frontend build to the exact path expected
+COPY --from=frontend /app/frontend/build ./frontend/build
+
 
 
 
