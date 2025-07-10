@@ -3,6 +3,9 @@
 A web-based rota and employee management application designed to streamline workforce scheduling, leave tracking, and staff role management.
 
 ---
+<img width="1920" height="965" alt="screencapture-company-management-rota-software-fly-dev-staffdash-2025-07-10-15_20_59" src="https://github.com/user-attachments/assets/2add9184-3ab5-49db-b63f-a1ed5cdb953d" />
+<img width="1920" height="1006" alt="screencapture-company-management-rota-software-fly-dev-hrdash-2025-07-10-15_21_30" src="https://github.com/user-attachments/assets/ea586ee0-fef4-449d-8777-88ac60747bc3" />
+<img width="1920" height="977" alt="screencapture-company-management-rota-software-fly-dev-managerdash-2025-07-10-15_22_51" src="https://github.com/user-attachments/assets/5192d216-fe00-46be-adf4-f9b3c756d63d" />
 
 ## 📖 Project Description
 
@@ -14,7 +17,7 @@ The **Company Rota System** is a workforce management solution tailored for orga
 
 > Built using **Express.js**, **React**, and **PostgreSQL** for a full-stack, responsive experience.
 
---- Live Demo : https://companyrotasoftware-3f6dcaa37799.herokuapp.com
+--- Live Demo :https://companyrotasoftware-3f6dcaa37799.herokuapp.com](https://company-management-rota-software.fly.dev/
 
 ## 🚀 Features
 
