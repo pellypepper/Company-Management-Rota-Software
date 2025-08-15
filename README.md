@@ -17,7 +17,7 @@ The **Company Rota System** is a workforce management solution tailored for orga
 
 > Built using **Express.js**, **React**, and **PostgreSQL** for a full-stack, responsive experience.
 
---- Live Demo :https://companyrotasoftware-3f6dcaa37799.herokuapp.com](https://company-management-rota-software.fly.dev/
+--- Live Demo : https://company-management-rota-software.fly.dev/
 
 ## 🚀 Features
 
